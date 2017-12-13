@@ -7,7 +7,7 @@ namespace EmergencyCenter.Units.Map
 {
     public class Map
     {
-        private string[][] map;
+        private int[,] map;
         private int rows;
         private int cols;
         private string mapFilePath;
@@ -32,12 +32,44 @@ namespace EmergencyCenter.Units.Map
             }
         }
 
+        public int this[int x, int y]
+        {
+            get
+            {
+                this.ValidateCoordonates(x, y);
+                return this.map[x, y];
+            }
+            set
+            {
+                this.ValidateCoordonates(x, y);
+                this.map[x, y] = value;
+            }
+        }
+
+        public int this[Position position]
+        {
+            get
+            {
+                this.ValidateCoordonates(position.X, position.Y);
+                return this.map[position.X, position.Y];
+            }
+            set
+            {
+                this.ValidateCoordonates(position.X, position.Y);
+                this.map[position.X, position.Y] = value;
+            }
+        }
+
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
-            for (int i = 0; i < this.rows; i++)
+            for (int row = 0; row < this.rows; row++)
             {
-                result.AppendLine(string.Join(" ", this.map[i]));
+                for (int col = 0; col < this.cols; col++)
+                {
+                    result.Append(this.map[row, col]);
+                }
+                result.AppendLine();
             }
 
             return result.ToString().Trim();
@@ -70,7 +102,7 @@ namespace EmergencyCenter.Units.Map
 
                         this.rows = rows;
                         this.cols = cols;
-                        this.map = new string[this.rows][];
+                        this.map = new int[this.rows, this.cols];
                     }
                     catch (FormatException e)
                     {
@@ -79,24 +111,54 @@ namespace EmergencyCenter.Units.Map
                 }
                 else
                 {
-                    if (args.Length != this.cols)
+                    if (args.Length != 3) // expect line in format: row col tileType
                     {
-                        throw new IndexOutOfRangeException("Inconsistend map dimension (cols).");
+                        throw new IndexOutOfRangeException("Invalid input args for map.");
                     }
-                    if (lineNumber > this.rows)
+                    try
                     {
-                        throw new IndexOutOfRangeException("Inconsistend map dimension (rows).");
-                    }
+                        int row = int.Parse(args[0]);
+                        int col = int.Parse(args[1]);
 
-                    this.map[lineNumber - 1] = args;
+                        this.ValidateCoordonates(row, col);
+
+                        string tileType = args[2];
+
+                        switch (tileType)
+                        {
+                            case "building":
+                                this.map[row, col] = 1;
+                                break;
+                            case "park":
+                                this.map[row, col] = 2;
+                                break;
+                            default: throw new ArgumentException("Unrecognised object.");
+                        }
+                    }
+                    catch (FormatException e)
+                    {
+                        throw new FormatException("Map dimension shoud be integer.");
+                    }
                 }
 
                 lineNumber++;
             }
+        }
 
-            if (lineNumber - 1 != this.rows)
+        /// <summary>
+        /// Check if given coorinates are in boundas of map
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        private void ValidateCoordonates(int x, int y)
+        {
+            if (x < 0 || x >= this.rows)
             {
-                throw new IndexOutOfRangeException("Inconsistend map dimension (rows).");
+                throw new IndexOutOfRangeException("Given x coordinate is out of bounds of map.");
+            }
+            if (y < 0 || y >= this.cols)
+            {
+                throw new IndexOutOfRangeException("Given y coordinate is out of bounds of map.");
             }
         }
     }
