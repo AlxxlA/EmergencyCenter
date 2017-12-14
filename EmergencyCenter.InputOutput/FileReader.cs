@@ -6,9 +6,12 @@ namespace EmergencyCenter.InputOutput
 {
     public class FileReader : IReader
     {
+        private int lineCounter;
+
         public FileReader(string path)
         {
             this.Path = path;
+            this.lineCounter = 0;
         }
 
         public string Path { get; set; }
@@ -24,9 +27,15 @@ namespace EmergencyCenter.InputOutput
             {
                 var line = reader.ReadLine();
 
+                int counter = 0;
                 while (!string.IsNullOrEmpty(line))
                 {
-                    yield return line;
+                    if (counter == this.lineCounter)
+                    {
+                        this.lineCounter++;
+                        yield return line;
+                    }
+                    counter++;
                     line = reader.ReadLine();
                 }
             }

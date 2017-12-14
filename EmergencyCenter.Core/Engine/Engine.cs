@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using EmergencyCenter.InputOutput;
 using EmergencyCenter.InputOutput.Contracts;
 
@@ -39,15 +41,41 @@ namespace EmergencyCenter.Core.Engine
 
         public void Run()
         {
-            foreach (var command in this.ReadCommand())
+            // execute commandCenter.Update(), when key combination is pressed (Ctrl + F1) - read command and execute it
+            while (true)
             {
-                if (command.Name == Command.EndCommandName)
+                // key is pressed
+                if (Console.KeyAvailable)
                 {
-                    break;
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+
+                    while (Console.KeyAvailable)
+                    {
+                        Console.ReadKey(true);
+                    }
+
+                    // check is there key combination is Ctrl + F1
+                    if (keyInfo.Modifiers == ConsoleModifiers.Control && keyInfo.Key == ConsoleKey.F1)
+                    {
+                        // read next command
+                        foreach (var command in this.ReadCommand())
+                        {
+                            // finish program execution
+                            if (command.Name == Command.EndCommandName)
+                            {
+                                // TODO: add end report 
+                                return;
+                            }
+
+                            Report report = this.ProcessCommand(command);
+                            this.PrintReport(report);
+                            break;
+                        }
+                    }
                 }
 
-                Report report = this.ProcessCommand(command);
-                this.PrintReport(report);
+                this.commandCenter.UpdateUnits();
+                Thread.Sleep(1500);
             }
         }
 
@@ -63,7 +91,8 @@ namespace EmergencyCenter.Core.Engine
 
         private Report ProcessCommand(Command command)
         {
-            throw new System.NotImplementedException();
+            var report = this.commandCenter.ExecuteCommand(command);
+            return report;
         }
 
         private void PrintReport(Report report)
