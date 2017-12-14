@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4F099CA7-F825-45F4-83C2-D44EDC18A962}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>JustTestProgram</RootNamespace>
-    <AssemblyName>JustTestProgram</AssemblyName>
+    <ProjectGuid>{8BC4E2C4-97AB-4D10-9F62-B464F894E37B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EmergencyCenter.InputOutput</RootNamespace>
+    <AssemblyName>EmergencyCenter.InputOutput</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,21 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
+    <Compile Include="ConsoleReader.cs" />
+    <Compile Include="ConsoleWriter.cs" />
+    <Compile Include="Contracts\IReader.cs" />
+    <Compile Include="Contracts\IWriter.cs" />
+    <Compile Include="FileReader.cs" />
+    <Compile Include="FileWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EmergencyCenter.InputOutput\EmergencyCenter.InputOutput.csproj">
-      <Project>{8bc4e2c4-97ab-4d10-9f62-b464f894e37b}</Project>
-      <Name>EmergencyCenter.InputOutput</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EmergencyCenter.Units\EmergencyCenter.Units.csproj">
-      <Project>{4DB1C01A-791F-40AA-80CA-C54567C28475}</Project>
-      <Name>EmergencyCenter.Units</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

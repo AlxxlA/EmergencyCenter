@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using EmergencyCenter.Core.Contracts;
+using EmergencyCenter.InputOutput.Contracts;
 
-namespace EmergencyCenter.Core.InputOutput
+namespace EmergencyCenter.InputOutput
 {
     public class ConsoleReader : IReader
     {

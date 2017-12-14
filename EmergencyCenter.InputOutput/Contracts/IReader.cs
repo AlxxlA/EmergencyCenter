@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EmergencyCenter.Core.Contracts
+namespace EmergencyCenter.InputOutput.Contracts
 {
     public interface IReader
     {

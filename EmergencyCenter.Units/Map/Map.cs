@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using EmergencyCenter.Core.InputOutput;
+using EmergencyCenter.InputOutput;
 
 namespace EmergencyCenter.Units.Map
 {

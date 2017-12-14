@@ -1,4 +1,4 @@
-﻿namespace EmergencyCenter.Core.Contracts
+﻿namespace EmergencyCenter.InputOutput.Contracts
 {
     public interface IWriter
     {

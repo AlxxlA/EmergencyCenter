@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using EmergencyCenter.Core.Contracts;
-using EmergencyCenter.Core.InputOutput;
+using EmergencyCenter.InputOutput;
+using EmergencyCenter.InputOutput.Contracts;
 
 namespace EmergencyCenter.Core.Engine
 {
