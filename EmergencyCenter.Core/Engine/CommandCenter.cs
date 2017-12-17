@@ -1,4 +1,6 @@
-﻿namespace EmergencyCenter.Core.Engine
+﻿using System;
+
+namespace EmergencyCenter.Core.Engine
 {
     public class CommandCenter
     {

@@ -60,16 +60,19 @@ namespace EmergencyCenter.Core.Engine
                         // read next command
                         foreach (var command in this.ReadCommand())
                         {
-                            // finish program execution
+                            // stop reading command
                             if (command.Name == Command.EndCommandName)
                             {
-                                // TODO: add end report 
+                                break;
+                            }
+                            // stop program execution
+                            if (command.Name == Command.TerminateCommandName)
+                            {
                                 return;
                             }
 
                             Report report = this.ProcessCommand(command);
                             this.PrintReport(report);
-                            break;
                         }
                     }
                 }

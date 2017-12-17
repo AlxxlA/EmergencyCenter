@@ -9,6 +9,7 @@ namespace EmergencyCenter.Core.Engine
     public class Command
     {
         public const string EndCommandName = "End";
+        public const string TerminateCommandName = "Terminate";
 
         public string Name { get; set; }
 
