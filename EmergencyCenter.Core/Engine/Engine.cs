@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using EmergencyCenter.InputOutput;
 using EmergencyCenter.InputOutput.Contracts;
+using EmergencyCenter.Units;
 
 namespace EmergencyCenter.Core.Engine
 {
@@ -44,6 +45,8 @@ namespace EmergencyCenter.Core.Engine
             // execute commandCenter.Update(), when key combination is pressed (Ctrl + F1) - read command and execute it
             while (true)
             {
+                var reports = new List<Report>();
+
                 // key is pressed
                 if (Console.KeyAvailable)
                 {
@@ -71,13 +74,13 @@ namespace EmergencyCenter.Core.Engine
                                 return;
                             }
 
-                            Report report = this.ProcessCommand(command);
-                            this.PrintReport(report);
+                            reports.Add(this.ProcessCommand(command));
                         }
                     }
                 }
 
-                this.commandCenter.UpdateUnits();
+                reports.AddRange(this.commandCenter.UpdateUnits());
+                this.PrintReports(reports);
                 Thread.Sleep(1500);
             }
         }
@@ -98,10 +101,13 @@ namespace EmergencyCenter.Core.Engine
             return report;
         }
 
-        private void PrintReport(Report report)
+        private void PrintReports(IEnumerable<Report> reports)
         {
-            this.consoleWriter.WriteLine(report);
-            this.fileWriter.WriteLine(report);
+            foreach (var report in reports)
+            {
+                this.consoleWriter.WriteLine(report);
+                this.fileWriter.WriteLine(report);
+            }
         }
     }
 }

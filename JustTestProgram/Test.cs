@@ -5,68 +5,41 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using EmergencyCenter.InputOutput;
+using EmergencyCenter.Units.Characters;
 using EmergencyCenter.Units.Map;
 
 namespace JustTestProgram
 {
     class Test
     {
-        public static event EventHandler CountdownCompleted;
+        public static event  KeyEventHandler KeyPressDown;
         static void Main()
         {
-            string path = "text.txt";
+            //KeyPressDown += OnKeyDown;
+            //while (true)
+            //{
+            //    if (Console.KeyAvailable)
+            //    {
+                  
+                    
 
-            //Map map = new Map("map.txt");
+            //        KeyPressDown(null,new KeyEventArgs(Control.ModifierKeys));
+            //    }
 
-            //var consoleWriter = new ConsoleWriter();
+            //    Console.WriteLine("Update");
+            //    Thread.Sleep(1000);
+            //}
 
-            //consoleWriter.WriteLine(map);
-
-            int counter = 1;
-
-            var fileReader = new ConsoleReader();
-
-            while (true)
-            {
-
-                if (Console.KeyAvailable)
-                {
-
-                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-
-                    while (Console.KeyAvailable)
-                    {
-                        Console.ReadKey(true);
-                    }
-
-                    if (keyInfo.Modifiers == ConsoleModifiers.Control && keyInfo.Key == ConsoleKey.F1)
-                    {
-                        foreach (var command in fileReader.ReadLine())
-                        {
-                            if (command == "end")
-                            {
-                                return;
-                            }
-                            Console.WriteLine(command);
-                            break;
-                        }
-                    }
-                }
-
-                Console.WriteLine("Patrul: " + counter);
-
-                Thread.Sleep(1500);
-
-                counter++;
-
-            }
+            
 
         }
 
-        public static string Method(string str)
+        private static void OnKeyDown(object sender, KeyEventArgs e)
         {
-            return "commmand: " + str;
+            Console.WriteLine(e.Modifiers);
+            Console.WriteLine("Event Handle");
         }
     }
 }

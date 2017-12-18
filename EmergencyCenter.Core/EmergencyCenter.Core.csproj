@@ -43,7 +43,6 @@
     <Compile Include="Engine\Command.cs" />
     <Compile Include="Engine\CommandCenter.cs" />
     <Compile Include="Engine\Engine.cs" />
-    <Compile Include="Engine\Report.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +53,10 @@
     <ProjectReference Include="..\EmergencyCenter.InputOutput\EmergencyCenter.InputOutput.csproj">
       <Project>{8bc4e2c4-97ab-4d10-9f62-b464f894e37b}</Project>
       <Name>EmergencyCenter.InputOutput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmergencyCenter.Units\EmergencyCenter.Units.csproj">
+      <Project>{4db1c01a-791f-40aa-80ca-c54567c28475}</Project>
+      <Name>EmergencyCenter.Units</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

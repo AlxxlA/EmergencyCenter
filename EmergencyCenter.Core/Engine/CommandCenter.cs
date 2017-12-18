@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using EmergencyCenter.Units;
 
 namespace EmergencyCenter.Core.Engine
 {
@@ -11,15 +13,15 @@ namespace EmergencyCenter.Core.Engine
         /// <returns></returns>
         public Report ExecuteCommand(Command command)
         {
-            return new Report();
+            return  null;
         }
 
         /// <summary>
         /// Call update method of all units
         /// </summary>
-        public void UpdateUnits()
+        public IEnumerable<Report> UpdateUnits()
         {
-
+            return null;
         }
     }
 }
