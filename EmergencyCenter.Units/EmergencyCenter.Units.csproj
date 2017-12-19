@@ -48,6 +48,7 @@
     <Compile Include="Characters\Person.cs" />
     <Compile Include="Characters\Policeman.cs" />
     <Compile Include="Map\Map.cs" />
+    <Compile Include="Map\MapUtils.cs" />
     <Compile Include="Map\Position.cs" />
     <Compile Include="Map\Route.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

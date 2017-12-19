@@ -10,7 +10,7 @@
 
         public int X { get; set; }
         public int Y { get; set; }
-        
+
         public static bool operator ==(Position p1, Position p2)
         {
             return p1.Equals(p2);
@@ -19,6 +19,11 @@
         public static bool operator !=(Position p1, Position p2)
         {
             return !p1.Equals(p2);
+        }
+
+        public override string ToString()
+        {
+            return $"X = {this.X} Y = {this.Y}";
         }
     }
 }

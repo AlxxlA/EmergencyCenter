@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,32 +15,21 @@ namespace JustTestProgram
 {
     class Test
     {
-        public static event  KeyEventHandler KeyPressDown;
         static void Main()
         {
-            //KeyPressDown += OnKeyDown;
-            //while (true)
-            //{
-            //    if (Console.KeyAvailable)
-            //    {
-                  
-                    
+            Map map = new Map(
+                @"C:\Users\Alexander\source\repos\TelerikAcademy\EmergencyCenter\JustTestProgram\bin\Debug\Map.txt");
 
-            //        KeyPressDown(null,new KeyEventArgs(Control.ModifierKeys));
-            //    }
+            Console.WriteLine(map);
 
-            //    Console.WriteLine("Update");
-            //    Thread.Sleep(1000);
-            //}
-
-            
+             var route  = MapUtils.FindShortestRoute(map, new Position(0, 0), new Position(8, 0));
+            Console.WriteLine(route.Positions.Count);
+            foreach (var position in route.Positions)
+            {
+                Console.WriteLine(position);
+            }
 
         }
-
-        private static void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            Console.WriteLine(e.Modifiers);
-            Console.WriteLine("Event Handle");
-        }
+        
     }
 }

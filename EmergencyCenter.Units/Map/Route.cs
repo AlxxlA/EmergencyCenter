@@ -12,7 +12,7 @@ namespace EmergencyCenter.Units.Map
             this.Positions = new List<Position>();
         }
 
-        public IList<Position> Positions { get; }
+        public IList<Position> Positions { get; set; }
 
         public Position CurrentPosition
         {

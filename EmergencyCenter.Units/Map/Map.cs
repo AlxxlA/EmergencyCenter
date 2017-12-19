@@ -18,6 +18,16 @@ namespace EmergencyCenter.Units.Map
             this.LoadMap();
         }
 
+        public int Rows
+        {
+            get { return this.rows; }
+        }
+
+        public int Cols
+        {
+            get { return this.cols; }
+        }
+
         public string MapFilePath
         {
             get { return this.mapFilePath; }
