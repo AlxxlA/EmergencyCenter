@@ -11,7 +11,7 @@ namespace EmergencyCenter.Units.Map
         private static int[] rowNum = { -1, 0, 0, 1 };
         private static int[] colNum = { 0, -1, 1, 0 };
 
-        internal struct QueueNode
+        private struct QueueNode
         {
             internal QueueNode(Position position, int distance, Stack<Position> path) : this()
             {
@@ -22,7 +22,7 @@ namespace EmergencyCenter.Units.Map
 
             internal Position Position { get; set; } // The cordinates of a cell
             internal int Distance { get; set; }// cell's distance of from the source
-            internal Stack<Position> Path { get; set; }
+            internal Stack<Position> Path { get; set; } // current path
         };
 
         public static Route FindShortestRoute(Map map, Position start, Position destination)
@@ -50,7 +50,7 @@ namespace EmergencyCenter.Units.Map
 
             var path = new Stack<Position>();
 
-            //path.Push(start);
+            path.Push(start);
 
             var queue = new Queue<QueueNode>();
 

@@ -22,7 +22,7 @@ namespace JustTestProgram
 
             Console.WriteLine(map);
 
-             var route  = MapUtils.FindShortestRoute(map, new Position(0, 0), new Position(8, 0));
+             var route  = MapUtils.FindShortestRoute(map, new Position(0, 1), new Position(6, 5));
             Console.WriteLine(route.Positions.Count);
             foreach (var position in route.Positions)
             {

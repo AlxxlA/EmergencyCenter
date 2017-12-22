@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using EmergencyCenter.InputOutput;
 
@@ -121,33 +122,22 @@ namespace EmergencyCenter.Units.Map
                 }
                 else
                 {
-                    if (args.Length != 3) // expect line in format: row col tileType
+                    if (args.Length != this.cols) // expect line in format: row col tileType
                     {
-                        throw new IndexOutOfRangeException("Invalid input args for map.");
+                        throw new IndexOutOfRangeException("Invalid cols count.");
                     }
                     try
                     {
-                        int row = int.Parse(args[0]);
-                        int col = int.Parse(args[1]);
+                        int[] tiles = args.Select(int.Parse).ToArray();
 
-                        this.ValidateCoordonates(row, col);
-
-                        string tileType = args[2];
-
-                        switch (tileType)
+                        for (int j = 0; j < this.cols; j++)
                         {
-                            case "building":
-                                this.map[row, col] = 1;
-                                break;
-                            case "park":
-                                this.map[row, col] = 2;
-                                break;
-                            default: throw new ArgumentException("Unrecognised object.");
+                            this.map[lineNumber - 1, j] = tiles[j];
                         }
                     }
                     catch (FormatException e)
                     {
-                        throw new FormatException("Map dimension shoud be integer.");
+                        throw new FormatException("Map tile shoud be integer.");
                     }
                 }
 
