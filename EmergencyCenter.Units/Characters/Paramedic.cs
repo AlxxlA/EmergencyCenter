@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EmergencyCenter.Units.Map;
+using EmergencyCenter.Units.Characters.Enums;
+using EmergencyCenter.Units.Maps;
 
 namespace EmergencyCenter.Units.Characters
 {
     public class Paramedic : CivilServant
     {
-        public Paramedic(string name, int health, int strength, Position position)
-            : base(name, health, strength, position)
+        public Paramedic(string name, int health, int strength, Position position, Map map, Position stationPosition)
+            : base(name, health, strength, position, map, PersonType.Paramedic, stationPosition)
         {
         }
 

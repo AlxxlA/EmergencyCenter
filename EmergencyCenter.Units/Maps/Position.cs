@@ -1,4 +1,4 @@
-﻿namespace EmergencyCenter.Units.Map
+﻿namespace EmergencyCenter.Units.Maps
 {
     public struct Position
     {

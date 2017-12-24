@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EmergencyCenter.Units.Map;
+using EmergencyCenter.Units.Characters.Enums;
+using EmergencyCenter.Units.Maps;
 
 namespace EmergencyCenter.Units.Characters
 {
@@ -16,12 +13,14 @@ namespace EmergencyCenter.Units.Characters
         private int strength;
         private Position position;
 
-        protected Person(string name, int health, int strength, Position position)
+        protected Person(string name, int health, int strength, Position position, Map map, PersonType personType)
         {
             this.Name = name;
             this.Health = health;
             this.Strength = strength;
             this.Position = position;
+            this.Map = map;
+            this.PersonType = personType;
             this.id = idCounter;
             idCounter++;
         }
@@ -47,7 +46,14 @@ namespace EmergencyCenter.Units.Characters
         public int Health
         {
             get { return this.health; }
-            set { this.health = value; }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Health cannot be less the zero.");
+                }
+                this.health = value;
+            }
         }
 
         public int Strength
@@ -62,10 +68,14 @@ namespace EmergencyCenter.Units.Characters
             set { this.position = value; }
         }
 
+        public PersonType PersonType { get; set; }
+
         public bool IsAlive
         {
             get { return this.Health > 0; }
         }
+
+        protected Map Map { get; }
 
         public abstract void Update();
     }

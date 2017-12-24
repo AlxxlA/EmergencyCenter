@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EmergencyCenter.Units.Map
+namespace EmergencyCenter.Units.Maps
 {
     public class Route
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EmergencyCenter.InputOutput;
 
-namespace EmergencyCenter.Units.Map
+namespace EmergencyCenter.Units.Maps
 {
     public class Map
     {

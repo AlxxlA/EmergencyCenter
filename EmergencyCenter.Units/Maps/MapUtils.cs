@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmergencyCenter.Units.Map
+namespace EmergencyCenter.Units.Maps
 {
     public static class MapUtils
     {
-        private static int[] rowNum = { -1, 0, 0, 1 };
-        private static int[] colNum = { 0, -1, 1, 0 };
+        private static readonly int[] RowNum = { -1, 0, 0, 1 };
+        private static readonly int[] ColNum = { 0, -1, 1, 0 };
 
         private struct QueueNode
         {
@@ -64,18 +64,17 @@ namespace EmergencyCenter.Units.Map
                 var currentNode = queue.Dequeue();
                 var currentPosition = currentNode.Position;
                 path = currentNode.Path;
-                
+
                 if (currentPosition == destination)
                 {
-                    Console.WriteLine(currentNode.Distance);
                     route.Positions = path.Reverse().ToList();
                     break;
                 }
 
                 for (int i = 0; i < 4; i++)
                 {
-                    int row = currentPosition.X + rowNum[i];
-                    int col = currentPosition.Y + colNum[i];
+                    int row = currentPosition.X + RowNum[i];
+                    int col = currentPosition.Y + ColNum[i];
 
 
                     if (IsValidPosition(map, row, col) && map[row, col] == 0 && !visited[row, col])
@@ -90,7 +89,7 @@ namespace EmergencyCenter.Units.Map
 
                 }
             }
-            
+
             return route;
         }
 
