@@ -89,7 +89,10 @@ namespace EmergencyCenter.Units.Maps
 
                 }
             }
-
+            if (route.Positions.Count == 0)
+            {
+                throw new ArgumentException("Route not found. Position is unreachable.");
+            }
             return route;
         }
 

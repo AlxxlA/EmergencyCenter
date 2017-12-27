@@ -44,6 +44,7 @@
     <Compile Include="Characters\Citizen.cs" />
     <Compile Include="Characters\CivilServant.cs" />
     <Compile Include="Characters\Criminal.cs" />
+    <Compile Include="Characters\Enums\InjuryType.cs" />
     <Compile Include="Characters\Enums\PersonType.cs" />
     <Compile Include="Characters\Paramedic.cs" />
     <Compile Include="Characters\Patient.cs" />
