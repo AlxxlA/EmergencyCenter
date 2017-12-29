@@ -15,7 +15,7 @@ namespace EmergencyCenter.Units.Characters
         public Position StationPosition { get; set; }
         public bool IsOnMission { get; set; }
 
-        public Route Route { get; private set; }
+        public Route Route { get; protected set; }
         public Person Target { get; private set; }
 
         protected void GoToAdress(Route route)
@@ -29,7 +29,7 @@ namespace EmergencyCenter.Units.Characters
 
         public abstract Report MakeReport();
 
-        public void StartMission(Route route, Person target)
+        public virtual void StartMission(Route route, Person target)
         {
             this.GoToAdress(route);
             this.Target = target;

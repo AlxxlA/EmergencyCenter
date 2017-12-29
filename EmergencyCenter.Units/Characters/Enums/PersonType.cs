@@ -5,7 +5,6 @@
         Policeman,
         Paramedic,
         Citizen,
-        Patient,
         Criminal,
     }
 }

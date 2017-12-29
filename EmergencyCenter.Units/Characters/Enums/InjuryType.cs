@@ -2,6 +2,7 @@
 {
     public enum InjuryType
     {
+        None,
         Bruise,
         Wound,
         LargeFracture,

@@ -6,6 +6,7 @@ namespace EmergencyCenter.Units.Characters
 {
     public abstract class Person
     {
+        protected const int MaxHealth = 100;
         private static int idCounter = 1;
         private string name;
         private readonly int id;
@@ -18,9 +19,10 @@ namespace EmergencyCenter.Units.Characters
             this.Name = name;
             this.Health = health;
             this.Strength = strength;
-            this.Position = position;
             this.Map = map;
+            this.Position = position;
             this.PersonType = personType;
+            this.Injury = InjuryType.None;
             this.id = idCounter;
             idCounter++;
         }
@@ -70,6 +72,13 @@ namespace EmergencyCenter.Units.Characters
 
         public PersonType PersonType { get; set; }
 
+        public InjuryType Injury { get; set; }
+
+        public bool IsInjured
+        {
+            get { return this.Injury != InjuryType.None; }
+        }
+
         public bool IsAlive
         {
             get { return this.Health > 0; }
@@ -77,6 +86,27 @@ namespace EmergencyCenter.Units.Characters
 
         protected Map Map { get; }
 
-        public abstract void Update();
+        public virtual void Update()
+        {
+            if (this.IsInjured)
+            {
+                switch (this.Injury)
+                {
+                    case InjuryType.Bruise:
+                        this.Health = Math.Max(0, this.Health - 5); // damage cannot be more then current health
+                        break;
+                    case InjuryType.Wound:
+                        this.Health = Math.Max(0, this.Health - 10);
+                        break;
+                    case InjuryType.LargeFracture:
+                        this.Health = Math.Max(0, this.Health - 20);
+                        break;
+                    case InjuryType.None: // no injury
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("Invalid injury type.");
+                }
+            }
+        }
     }
 }

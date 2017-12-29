@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EmergencyCenter.InputOutput;
 using EmergencyCenter.Units.Characters;
+using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Maps;
 
 namespace JustTestProgram
@@ -31,26 +32,19 @@ namespace JustTestProgram
             //    Console.WriteLine(position);
             //}
 
-            //var policeman = new Policeman("Pesho", 100, 100, new Position(0, 0), map, new Position(0, 0));
-            //var criminal = new Criminal("Gosho tupoto", 100, 100, new Position(6, 12), map);
+            var paramedic = new Paramedic("Pesho", 100, 100, new Position(0, 0), map, new Position(0, 0));
+            var patient = new Citizen("Gosho tupoto", 100, 100, new Position(0, 9), map) { Injury = InjuryType.Wound };
 
-            //var route = MapUtils.FindShortestRoute(map, policeman.Position, criminal.Position);
+            var route = MapUtils.FindShortestRoute(map, paramedic.Position, patient.Position);
 
-            //policeman.StartMission(route, criminal);
-            //while (policeman.IsOnMission)
-            //{
-            //    policeman.Update();
-            //    var report = policeman.MakeReport();
-            //    Console.Write(report);
-            //}
-
-            //for (int i = 0; i < 20; i++)
-            //{
-            //    policeman.Update();
-            //    Console.WriteLine(policeman.MakeReport());
-            //}
-
+            paramedic.StartMission(route, patient);
+            while (paramedic.IsOnMission)
+            {
+                paramedic.Update();
+                patient.Update();
+                var report = paramedic.MakeReport();
+                Console.Write(report);
+            }
         }
-
     }
 }

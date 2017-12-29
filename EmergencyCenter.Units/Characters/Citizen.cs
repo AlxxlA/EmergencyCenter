@@ -10,15 +10,23 @@ namespace EmergencyCenter.Units.Characters
         private string currentDirection;
         private int stepsInDirection;
 
-        public Citizen(string name, int health, int strength, Position position, Map map, PersonType personType = PersonType.Citizen)
+        public Citizen(string name, int health, int strength, Position position, Map map)
+            : base(name, health, strength, position, map, PersonType.Citizen)
+        {
+        }
+
+        protected Citizen(string name, int health, int strength, Position position, Map map, PersonType personType = PersonType.Citizen)
             : base(name, health, strength, position, map, personType)
         {
         }
 
         public override void Update()
         {
-            // just walk around
-            this.Walk();
+            if (!this.IsInjured)
+            {
+                this.Walk();
+            }
+            base.Update();
         }
 
         private void Walk()
