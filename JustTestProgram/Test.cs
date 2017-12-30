@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -33,7 +32,7 @@ namespace JustTestProgram
             //}
 
             var paramedic = new Paramedic("Pesho", 100, 100, new Position(0, 0), map, new Position(0, 0));
-            var patient = new Citizen("Gosho tupoto", 100, 100, new Position(0, 9), map) { Injury = InjuryType.Wound };
+            var patient = new Citizen("Gosho tupoto", 100, 100, new Position(0, 16), map) { Injury = InjuryType.Bruise };
 
             var route = MapUtils.FindShortestRoute(map, paramedic.Position, patient.Position);
 
@@ -43,8 +42,10 @@ namespace JustTestProgram
                 paramedic.Update();
                 patient.Update();
                 var report = paramedic.MakeReport();
+                Console.WriteLine(patient.Health);
                 Console.Write(report);
             }
+
         }
     }
 }

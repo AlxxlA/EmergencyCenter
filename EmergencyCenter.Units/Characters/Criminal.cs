@@ -1,10 +1,11 @@
 ﻿using System;
+using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Maps;
 
 namespace EmergencyCenter.Units.Characters
 {
-    public class Criminal : Citizen
+    public class Criminal : Citizen, ICriminal
     {
         private int movesToEscape;
 

@@ -1,10 +1,11 @@
 ﻿using System;
+using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Maps;
 
 namespace EmergencyCenter.Units.Characters
 {
-    public class Citizen : Person
+    public class Citizen : Person, ICitizen
     {
         private readonly string[] directions = { "up", "down", "left", "right" };
         private string currentDirection;
@@ -31,7 +32,7 @@ namespace EmergencyCenter.Units.Characters
 
         private void Walk()
         {
-            Random rnd = new Random();
+            var rnd = new Random();
             if (this.stepsInDirection == 0 || string.IsNullOrEmpty(this.currentDirection))
             {
                 int nextDirection = rnd.Next(0, this.directions.Length);

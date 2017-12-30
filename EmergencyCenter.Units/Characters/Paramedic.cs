@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Maps;
 
 namespace EmergencyCenter.Units.Characters
 {
-    public class Paramedic : CivilServant
+    public class Paramedic : CivilServant, IParamedic
     {
+        private const string PersonIsFineMessage = "Person {0} is fine.";
+        private const string PersonIsAlreadyDeathMessage = "Person {0} is already death.";
+        private const string PersonTransportToHospitalMessage = "Person {0} is successfully transport to hospital.";
+        private const string PersonDeadOnWayMessage = "Person {0} dead on way to hospital";
+        private const string PersonNotFoundMessage = "Person {0} not found";
+
         private Report report;
         private bool isOnWayToTarget;
         private bool isOnWayToHospital;
@@ -63,14 +66,14 @@ namespace EmergencyCenter.Units.Characters
 
                 if (!this.Target.IsAlive)
                 {
-                    reportContent = "Person is already death.";
+                    reportContent = string.Format(PersonIsAlreadyDeathMessage, this.Target.Name);
                     this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
                     this.isWithPatient = false;
                     this.IsOnMission = false;
                 }
                 if (this.Target.Health == MaxHealth && !this.Target.IsInjured)
                 {
-                    reportContent = "Person is fine";
+                    reportContent = string.Format(PersonIsFineMessage, this.Target.Name);
                     this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
                     this.isWithPatient = false;
                     this.IsOnMission = false;
@@ -84,15 +87,16 @@ namespace EmergencyCenter.Units.Characters
             else if (this.isOnWayToHospital && this.Position == this.StationPosition && this.Target.IsAlive && this.isWithPatient)
             {
                 this.isOnWayToHospital = false;
+                this.Target.Health = Math.Min(MaxHealth, this.Target.Health + 10);
                 this.Target.Injury = InjuryType.None;
                 this.IsOnMission = false;
-                reportContent = "Person is successfully transport to hospital.";
+                reportContent = string.Format(PersonTransportToHospitalMessage, this.Target.Name);
                 this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
                 return;
             }
             else if (!this.Target.IsAlive && this.isOnWayToHospital && this.isWithPatient)
             {
-                reportContent = "Person dead on way to hospital";
+                reportContent = string.Format(PersonDeadOnWayMessage, this.Target.Name);
                 this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
                 this.IsOnMission = false;
                 return;
@@ -105,7 +109,7 @@ namespace EmergencyCenter.Units.Characters
 
             if (this.Position == this.Route.LastPosition && this.Position != this.Target.Position && this.isOnWayToTarget)
             {
-                reportContent = $"Tagret {this.Target.Name} has run away.";
+                reportContent = string.Format(PersonNotFoundMessage, this.Target.Name);
                 this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
 
                 this.Route = MapUtils.FindShortestRoute(this.Map, this.Position, this.StationPosition);

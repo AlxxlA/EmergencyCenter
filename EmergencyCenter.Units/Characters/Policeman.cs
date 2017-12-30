@@ -1,11 +1,19 @@
 ﻿using System;
+using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Maps;
 
 namespace EmergencyCenter.Units.Characters
 {
-    public class Policeman : CivilServant
+    public class Policeman : CivilServant, IPoliceman
     {
+        private const string PersonClearMessage = "Person {0} is clear";
+        private const string PersonCaughtMessage = "Person {0} has caught";
+        private const string PersonEscapeMessage = "Person {0} manage to escape";
+        private const string PersonNotFoundMessage = "Person {0} has run away.";
+        private const string PolicemanDiedMessage = "Policeman tragically died.";
+        private const string PersonNullMessage = "Policeman cannot check null value person.";
+
         private Report report;
         private bool isOnPath;
 
@@ -26,13 +34,17 @@ namespace EmergencyCenter.Units.Characters
             }
         }
 
-        public void CheckCitizen(Person person)
+        public void CheckCitizen(IPerson person)
         {
+            if (person == null)
+            {
+                throw new ArgumentNullException(PersonNullMessage);
+            }
             string reportContent;
 
             if (person.PersonType != PersonType.Criminal)
             {
-                reportContent = $"Person {person.Name} is clear";
+                reportContent = string.Format(PersonClearMessage, person.Name);
                 this.report = new Report(ReportType.PoliceReport, this.Name, reportContent);
                 return;
             }
@@ -40,22 +52,22 @@ namespace EmergencyCenter.Units.Characters
             {
                 if (this.Strength >= person.Strength / 1.3)
                 {
-                    reportContent = $"Target {person.Name} has caught";
+                    reportContent = string.Format(PersonCaughtMessage, person.Name);
                     person.Health = 0;
                 }
                 else if (this.Strength >= person.Strength / 2)
                 {
-                    reportContent = $"Targer {person.Name} manage to escape";
+                    reportContent = string.Format(PersonEscapeMessage, person.Name);
                 }
                 else
                 {
                     this.Health = 0;
-                    reportContent = "Policeman tragically died.";
+                    reportContent = PolicemanDiedMessage;
                 }
             }
             else
             {
-                reportContent = $"Person {person.Name} is not found";
+                reportContent = string.Format(PersonNotFoundMessage, person.Name);
             }
 
             this.report = new Report(ReportType.PoliceReport, this.Name, reportContent);
@@ -79,7 +91,7 @@ namespace EmergencyCenter.Units.Characters
 
             if (this.Position == this.Route.LastPosition && this.Position != this.Target.Position)
             {
-                string reportContent = $"Tagret {this.Target.Name} has run away.";
+                string reportContent = string.Format(PersonNotFoundMessage, this.Target.Name);
                 this.report = new Report(ReportType.PoliceReport, this.Name, reportContent);
                 this.IsOnMission = false;
             }
@@ -87,7 +99,7 @@ namespace EmergencyCenter.Units.Characters
 
         private void Patrol()
         {
-            Random random = new Random();
+            var random = new Random();
             if (!this.isOnPath)
             {
                 while (true)
@@ -112,8 +124,8 @@ namespace EmergencyCenter.Units.Characters
                     this.isOnPath = false;
                 }
             }
-            string reportContent = $"Police patrol. Position {this.Position.X}, {this.Position.Y}";
-            this.report = new Report(ReportType.PoliceReport, this.Name, reportContent);
+
+            this.report = null;
         }
     }
 }

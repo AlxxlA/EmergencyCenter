@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using EmergencyCenter.InputOutput;
+using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Units.Maps
 {
@@ -54,6 +55,14 @@ namespace EmergencyCenter.Units.Maps
             {
                 this.ValidateCoordonates(x, y);
                 this.map[x, y] = value;
+            }
+        }
+
+        public void ValidatePosition(Position position)
+        {
+            if (position.X < 0 || position.X >= this.rows || position.Y < 0 || position.Y >= this.cols)
+            {
+                throw new IndexOutOfRangeException("Given position is out of bounds of map.");
             }
         }
 

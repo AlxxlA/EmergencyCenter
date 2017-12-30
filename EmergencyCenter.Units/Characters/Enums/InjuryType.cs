@@ -2,9 +2,9 @@
 {
     public enum InjuryType
     {
-        None,
-        Bruise,
-        Wound,
-        LargeFracture,
+        None = 0,
+        Bruise = 5,
+        Wound = 10,
+        LargeFracture = 20,
     }
 }

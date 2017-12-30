@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("JustTestProgram")]
+[assembly: AssemblyTitle("EmergencyCenter.Validation")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("JustTestProgram")]
+[assembly: AssemblyProduct("EmergencyCenter.Validation")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,8 +19,8 @@ using System.Runtime.InteropServices;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-// The following GUID is for the Id of the typelib if this project is exposed to COM
-[assembly: Guid("4f099ca7-f825-45f4-83c2-d44edc18a962")]
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("a5974cf0-4810-42d5-978c-5cdadc3b0ee2")]
 
 // Version information for an assembly consists of the following four values:
 //

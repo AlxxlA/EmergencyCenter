@@ -1,18 +1,31 @@
 ﻿using System;
+using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Units.Characters
 {
-    public abstract class Person
+    public abstract class Person : IPerson
     {
+        private const string InvalidNameMessage = "Name value cannot be null or empty.";
+        private const string InvalidHealthMessage = "Health cannot be less then {0} or greater then {1}.";
+        private const string InvalidStrengthMessage = "Strength cannot be less then {0} or greater then {1}.";
+        private const string InvalidMapMessage = "Map cannot be null.";
+
+        protected const int MinHealth = 0;
         protected const int MaxHealth = 100;
+
+        protected const int MinStrength = 0;
+        protected const int MaxStrength = 100;
+
         private static int idCounter = 1;
+
         private string name;
-        private readonly int id;
         private int health;
         private int strength;
         private Position position;
+        private Map map;
 
         protected Person(string name, int health, int strength, Position position, Map map, PersonType personType)
         {
@@ -23,90 +36,75 @@ namespace EmergencyCenter.Units.Characters
             this.Position = position;
             this.PersonType = personType;
             this.Injury = InjuryType.None;
-            this.id = idCounter;
+            this.Id = idCounter;
             idCounter++;
         }
 
+        public int Id { get; }
+
         public string Name
         {
-            get { return this.name; }
-            set
+            get => this.name;
+            private set
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("Person name shoud not be null or empty.");
-                }
+                Validator.ValidateStringNullOrEmpty(value, InvalidNameMessage);
                 this.name = value;
             }
         }
 
-        public int ID
-        {
-            get { return this.id; }
-        }
-
         public int Health
         {
-            get { return this.health; }
+            get => this.health;
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentException("Health cannot be less the zero.");
-                }
+                var invalidMessage = string.Format(InvalidHealthMessage, MinHealth, MaxHealth);
+                Validator.ValidateIntRange(value, MinHealth, MaxHealth, invalidMessage);
                 this.health = value;
             }
         }
 
         public int Strength
         {
-            get { return this.strength; }
-            set { this.strength = value; }
+            get => this.strength;
+            set
+            {
+                var invalidMessage = string.Format(InvalidStrengthMessage, MinStrength, MaxStrength);
+                Validator.ValidateIntRange(value, MinStrength, MaxStrength, invalidMessage);
+                this.strength = value;
+            }
         }
 
         public Position Position
         {
-            get { return this.position; }
-            set { this.position = value; }
+            get => this.position;
+            set
+            {
+                this.Map?.ValidatePosition(value);
+                this.position = value;
+            }
         }
 
-        public PersonType PersonType { get; set; }
+        public PersonType PersonType { get; }
 
         public InjuryType Injury { get; set; }
 
-        public bool IsInjured
-        {
-            get { return this.Injury != InjuryType.None; }
-        }
+        public bool IsInjured => this.Injury != InjuryType.None;
 
-        public bool IsAlive
-        {
-            get { return this.Health > 0; }
-        }
+        public bool IsAlive => this.Health > 0;
 
-        protected Map Map { get; }
+        protected Map Map
+        {
+            get => this.map;
+            set
+            {
+                Validator.ValidateNull(value, InvalidMapMessage);
+                this.map = value;
+            }
+        }
 
         public virtual void Update()
         {
-            if (this.IsInjured)
-            {
-                switch (this.Injury)
-                {
-                    case InjuryType.Bruise:
-                        this.Health = Math.Max(0, this.Health - 5); // damage cannot be more then current health
-                        break;
-                    case InjuryType.Wound:
-                        this.Health = Math.Max(0, this.Health - 10);
-                        break;
-                    case InjuryType.LargeFracture:
-                        this.Health = Math.Max(0, this.Health - 20);
-                        break;
-                    case InjuryType.None: // no injury
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException("Invalid injury type.");
-                }
-            }
+            this.Health = Math.Max(0, this.Health - (int)this.Injury); // damage cannot be more then current health
         }
     }
 }
