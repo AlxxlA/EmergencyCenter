@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EmergencyCenter.Units.Maps.Enums;
 
 namespace EmergencyCenter.Units.Maps
 {
@@ -20,16 +19,16 @@ namespace EmergencyCenter.Units.Maps
                 this.Path = path;
             }
 
-            internal Position Position { get; set; } // The cordinates of a cell
-            internal int Distance { get; set; }// cell's distance of from the source
-            internal Stack<Position> Path { get; set; } // current path
-        };
+            internal Position Position { get; } // The cordinates of a cell
+            internal int Distance { get; }// cell's distance of from the source
+            internal Stack<Position> Path { get; } // current path
+        }
 
         public static Route FindShortestRoute(Map map, Position start, Position destination)
         {
             var route = new Route();
 
-            if (map[start] != 0)
+            if (map[start] != (int)MapTileType.Street)
             {
                 throw new ArgumentException("Invalid start position.");
             }
@@ -56,7 +55,6 @@ namespace EmergencyCenter.Units.Maps
 
             var node = new QueueNode(start, 0, path);
 
-
             queue.Enqueue(node);
 
             while (queue.Count != 0)
@@ -67,7 +65,7 @@ namespace EmergencyCenter.Units.Maps
 
                 if (currentPosition == destination)
                 {
-                    route.Positions = path.Reverse().ToList();
+                    route = new Route(path.Reverse());
                     break;
                 }
 
@@ -76,8 +74,7 @@ namespace EmergencyCenter.Units.Maps
                     int row = currentPosition.X + RowNum[i];
                     int col = currentPosition.Y + ColNum[i];
 
-
-                    if (IsValidPosition(map, row, col) && map[row, col] == 0 && !visited[row, col])
+                    if (IsValidPosition(map, row, col) && map[row, col] == (int)MapTileType.Street && !visited[row, col])
                     {
                         path.Push(new Position(row, col));
                         visited[row, col] = true;
@@ -86,10 +83,9 @@ namespace EmergencyCenter.Units.Maps
                         queue.Enqueue(nextNode);
                         path.Pop();
                     }
-
                 }
             }
-            if (route.Positions.Count == 0)
+            if (route.Length == 0)
             {
                 throw new ArgumentException("Route not found. Position is unreachable.");
             }

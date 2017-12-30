@@ -1,29 +1,36 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using EmergencyCenter.InputOutput.Contracts;
+using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.InputOutput
 {
-    public class FileWriter : IWriter
+    public class FileWriter : IFileWriter
     {
+        private const string InvalidFileMessage = "File path is invalid.";
+
+        private string path;
+
         public FileWriter(string path, bool append = true)
         {
             this.Path = path;
             this.Append = append;
         }
 
-        public string Path { get; }
+        public string Path
+        {
+            get => this.path;
+            set
+            {
+                Validator.ValidateFilePath(value, InvalidFileMessage);
+                this.path = value;
+            }
+        }
 
         public bool Append { get; set; }
 
         public void WriteLine(object value)
         {
-            if (string.IsNullOrEmpty(this.Path))
-            {
-                throw new ArgumentNullException("Path can not be null or empty.");
-            }
-
-            using (var writer = new StreamWriter(this.Path, append: true))
+            using (var writer = new StreamWriter(this.Path, this.Append))
             {
                 writer.WriteLine(value.ToString());
             }

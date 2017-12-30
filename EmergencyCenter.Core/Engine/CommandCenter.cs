@@ -13,7 +13,7 @@ namespace EmergencyCenter.Core.Engine
         /// <returns></returns>
         public Report ExecuteCommand(Command command)
         {
-            return  null;
+            return null;
         }
 
         /// <summary>

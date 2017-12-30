@@ -43,11 +43,19 @@
   <ItemGroup>
     <Compile Include="ConsoleReader.cs" />
     <Compile Include="ConsoleWriter.cs" />
+    <Compile Include="Contracts\IFileReader.cs" />
+    <Compile Include="Contracts\IFileWriter.cs" />
     <Compile Include="Contracts\IReader.cs" />
     <Compile Include="Contracts\IWriter.cs" />
     <Compile Include="FileReader.cs" />
     <Compile Include="FileWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EmergencyCenter.Validation\EmergencyCenter.Validation.csproj">
+      <Project>{a5974cf0-4810-42d5-978c-5cdadc3b0ee2}</Project>
+      <Name>EmergencyCenter.Validation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

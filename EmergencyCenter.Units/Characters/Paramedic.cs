@@ -1,6 +1,7 @@
 ﻿using System;
 using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
+using EmergencyCenter.Units.Contracts;
 using EmergencyCenter.Units.Maps;
 
 namespace EmergencyCenter.Units.Characters
@@ -13,7 +14,7 @@ namespace EmergencyCenter.Units.Characters
         private const string PersonDeadOnWayMessage = "Person {0} dead on way to hospital";
         private const string PersonNotFoundMessage = "Person {0} not found";
 
-        private Report report;
+        private IReport report;
         private bool isOnWayToTarget;
         private bool isOnWayToHospital;
         private bool isWithPatient;
@@ -40,13 +41,13 @@ namespace EmergencyCenter.Units.Characters
             base.Update();
         }
 
-        public override void StartMission(Route route, Person target)
+        public override void StartMission(Route route, IPerson target)
         {
             base.StartMission(route, target);
             this.isOnWayToTarget = true;
         }
 
-        public override Report MakeReport()
+        public override IReport MakeReport()
         {
             return this.report;
         }
@@ -87,8 +88,8 @@ namespace EmergencyCenter.Units.Characters
             else if (this.isOnWayToHospital && this.Position == this.StationPosition && this.Target.IsAlive && this.isWithPatient)
             {
                 this.isOnWayToHospital = false;
-                this.Target.Health = Math.Min(MaxHealth, this.Target.Health + 10);
                 this.Target.Injury = InjuryType.None;
+                this.Target.Health = MaxHealth;
                 this.IsOnMission = false;
                 reportContent = string.Format(PersonTransportToHospitalMessage, this.Target.Name);
                 this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);

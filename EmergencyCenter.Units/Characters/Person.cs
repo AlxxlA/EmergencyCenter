@@ -2,6 +2,7 @@
 using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Units.Maps.Enums;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Units.Characters
@@ -12,6 +13,7 @@ namespace EmergencyCenter.Units.Characters
         private const string InvalidHealthMessage = "Health cannot be less then {0} or greater then {1}.";
         private const string InvalidStrengthMessage = "Strength cannot be less then {0} or greater then {1}.";
         private const string InvalidMapMessage = "Map cannot be null.";
+        private const string InvalidPossitionMessage = "Given position is invalid.";
 
         protected const int MinHealth = 0;
         protected const int MaxHealth = 100;
@@ -80,6 +82,10 @@ namespace EmergencyCenter.Units.Characters
             set
             {
                 this.Map?.ValidatePosition(value);
+                if (this.Map?[value] != (int)MapTileType.Street)
+                {
+                    throw new ArgumentException(InvalidPossitionMessage);
+                }
                 this.position = value;
             }
         }

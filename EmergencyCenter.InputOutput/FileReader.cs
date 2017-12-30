@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using EmergencyCenter.InputOutput.Contracts;
+using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.InputOutput
 {
-    public class FileReader : IReader
+    public class FileReader : IFileReader
     {
+        private const string InvalidFileMessage = "File path is invalid.";
+
+        private string path;
         private int lineCounter;
 
         public FileReader(string path)
@@ -14,15 +18,18 @@ namespace EmergencyCenter.InputOutput
             this.lineCounter = 0;
         }
 
-        public string Path { get; set; }
+        public string Path
+        {
+            get => this.path;
+            set
+            {
+                Validator.ValidateFilePath(value, InvalidFileMessage);
+                this.path = value;
+            }
+        }
 
         public IEnumerable<string> ReadLine()
         {
-            if (!File.Exists(this.Path))
-            {
-                throw new FileNotFoundException("File does not exist");
-            }
-
             using (var reader = new StreamReader(this.Path))
             {
                 var line = reader.ReadLine();

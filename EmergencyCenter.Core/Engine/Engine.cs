@@ -13,7 +13,7 @@ namespace EmergencyCenter.Core.Engine
         private const string OutputFileName = "result.txt";
         private static Engine instance;
         private readonly CommandCenter commandCenter;
-        private readonly IReader consoleReader;
+        //  private readonly IReader consoleReader;
         private readonly IWriter consoleWriter;
         private readonly IReader fileReader;
         private readonly IWriter fileWriter;
@@ -21,7 +21,7 @@ namespace EmergencyCenter.Core.Engine
         private Engine()
         {
             this.commandCenter = new CommandCenter();
-            this.consoleReader = new ConsoleReader();
+            // this.consoleReader = new ConsoleReader();
             this.consoleWriter = new ConsoleWriter();
             this.fileReader = new FileReader(InputFileName);
             this.fileWriter = new FileWriter(OutputFileName);
@@ -87,7 +87,7 @@ namespace EmergencyCenter.Core.Engine
 
         private IEnumerable<Command> ReadCommand()
         {
-            foreach (var line in this.consoleReader.ReadLine())
+            foreach (var line in this.fileReader.ReadLine())
             {
                 yield return Command.Parse(line);
             }

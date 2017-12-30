@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace EmergencyCenter.Validation
@@ -52,6 +53,14 @@ namespace EmergencyCenter.Validation
             if (!regex.IsMatch(value))
             {
                 throw new ArgumentException(message);
+            }
+        }
+
+        public static void ValidateFilePath(string path, string message)
+        {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException(message);
             }
         }
     }

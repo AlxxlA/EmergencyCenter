@@ -1,4 +1,5 @@
-﻿using EmergencyCenter.Units.Maps;
+﻿using EmergencyCenter.Units.Contracts;
+using EmergencyCenter.Units.Maps;
 
 namespace EmergencyCenter.Units.Characters.Contracts
 {
@@ -12,8 +13,8 @@ namespace EmergencyCenter.Units.Characters.Contracts
 
         IPerson Target { get; }
 
-        Report MakeReport();
+        IReport MakeReport();
 
-        void StartMission(Route newRoute, Person newTarget);
+        void StartMission(Route newRoute, IPerson newTarget);
     }
 }

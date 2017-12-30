@@ -1,6 +1,7 @@
 ﻿using System;
 using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
+using EmergencyCenter.Units.Contracts;
 using EmergencyCenter.Units.Maps;
 using EmergencyCenter.Validation;
 
@@ -63,9 +64,9 @@ namespace EmergencyCenter.Units.Characters
             this.Route = newRoute;
         }
 
-        public abstract Report MakeReport();
+        public abstract IReport MakeReport();
 
-        public virtual void StartMission(Route newRoute, Person newTarget)
+        public virtual void StartMission(Route newRoute, IPerson newTarget)
         {
             this.GoToAdress(newRoute);
             this.Target = newTarget;

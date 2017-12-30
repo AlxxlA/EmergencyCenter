@@ -1,6 +1,7 @@
 ﻿using System;
 using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
+using EmergencyCenter.Units.Contracts;
 using EmergencyCenter.Units.Maps;
 
 namespace EmergencyCenter.Units.Characters
@@ -14,7 +15,7 @@ namespace EmergencyCenter.Units.Characters
         private const string PolicemanDiedMessage = "Policeman tragically died.";
         private const string PersonNullMessage = "Policeman cannot check null value person.";
 
-        private Report report;
+        private IReport report;
         private bool isOnPath;
 
         public Policeman(string name, int health, int strength, Position position, Map map, Position stationPosition)
@@ -73,7 +74,7 @@ namespace EmergencyCenter.Units.Characters
             this.report = new Report(ReportType.PoliceReport, this.Name, reportContent);
         }
 
-        public override Report MakeReport()
+        public override IReport MakeReport()
         {
             return this.report;
         }

@@ -5,21 +5,25 @@ namespace EmergencyCenter.Units.Maps
 {
     public class Route
     {
+        private readonly IList<Position> positions;
         private int currentPositionIndex;
 
         public Route()
         {
-            this.Positions = new List<Position>();
+            this.positions = new List<Position>();
         }
 
-        public IList<Position> Positions { get; set; }
+        public Route(IEnumerable<Position> positions)
+        {
+            this.positions = new List<Position>(positions);
+        }
 
         public Position CurrentPosition
         {
             get
             {
                 this.CheckForNullOrEmpty();
-                return this.Positions[this.currentPositionIndex];
+                return this.positions[this.currentPositionIndex];
             }
         }
 
@@ -28,20 +32,15 @@ namespace EmergencyCenter.Units.Maps
             get
             {
                 this.CheckForNullOrEmpty();
-                return this.Positions[this.Positions.Count - 1];
+                return this.positions[this.positions.Count - 1];
             }
         }
 
+        public int Length => this.positions.Count;
+
         public void AddPosition(Position position)
         {
-            this.Positions.Add(position);
-        }
-
-        public void RemoveLastPosition()
-        {
-            this.CheckForNullOrEmpty();
-            int index = this.Positions.Count - 1;
-            this.Positions.RemoveAt(index);
+            this.positions.Add(position);
         }
 
         /// <summary>
@@ -51,22 +50,22 @@ namespace EmergencyCenter.Units.Maps
         public Position NextPosition()
         {
             this.CheckForNullOrEmpty();
-            if (this.currentPositionIndex == this.Positions.Count - 1)
+            if (this.currentPositionIndex == this.positions.Count - 1)
             {
                 return this.LastPosition;
             }
 
             this.currentPositionIndex++;
-            return this.Positions[this.currentPositionIndex];
+            return this.positions[this.currentPositionIndex];
         }
 
         private void CheckForNullOrEmpty()
         {
-            if (this.Positions == null)
+            if (this.positions == null)
             {
                 throw new NullReferenceException("Route positions are null.");
             }
-            if (this.Positions.Count == 0)
+            if (this.positions.Count == 0)
             {
                 throw new NullReferenceException("Route positions are empty.");
             }
