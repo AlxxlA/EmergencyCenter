@@ -10,7 +10,7 @@ namespace EmergencyCenter.InputOutput
 
         private string path;
 
-        public FileWriter(string path, bool append = true)
+        public FileWriter(string path, bool append = false)
         {
             this.Path = path;
             this.Append = append;

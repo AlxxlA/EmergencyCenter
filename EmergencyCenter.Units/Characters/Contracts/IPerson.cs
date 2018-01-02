@@ -15,6 +15,8 @@ namespace EmergencyCenter.Units.Characters.Contracts
 
         Position Position { get; set; }
 
+        Map Map { get; }
+
         PersonType PersonType { get; }
 
         InjuryType Injury { get; set; }

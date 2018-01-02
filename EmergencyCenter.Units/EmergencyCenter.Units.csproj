@@ -55,6 +55,7 @@
     <Compile Include="Characters\Paramedic.cs" />
     <Compile Include="Characters\Person.cs" />
     <Compile Include="Characters\Policeman.cs" />
+    <Compile Include="CommandCenter.cs" />
     <Compile Include="Contracts\IReport.cs" />
     <Compile Include="Maps\Enums\MapTileType.cs" />
     <Compile Include="Maps\Map.cs" />
