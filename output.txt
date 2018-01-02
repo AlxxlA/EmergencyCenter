@@ -1,5 +1,69 @@
+Policeman Pesho added successfully.
+Paramedic Gosho added successfully.
+Citizen Mira added successfully.
+Criminal Cherepa added successfully.
+Policeman Skalata added successfully.
+Policeman Stanka added successfully.
+Citizen Alex added successfully.
+Citizen Eva added successfully.
+Paramedic Elena added successfully.
+Police is on the way.
+Police is on the way.
+Target was injured with Wound
+paramedic is on the way.
+Policeman Pesho added successfully.
+Paramedic Gosho added successfully.
+Citizen Mira added successfully.
+Criminal Cherepa added successfully.
+Policeman Skalata added successfully.
+Policeman Stanka added successfully.
+Citizen Alex added successfully.
+Citizen Eva added successfully.
+Paramedic Elena added successfully.
+Police is on the way.
+Police is on the way.
+Target was injured with Wound
+paramedic is on the way.
+---Report---
+PoliceReport
+Author : Skalata
+Person Alex is clear
+------------
+---Report---
+MedicalReport
+Author : Elena
+Person Eva is successfully transport to hospital.
+------------
+---Report---
+PoliceReport
+Author : Stanka
+Person Cherepa has run away.
+------------
+Policeman Pesho added successfully.
+Paramedic Gosho added successfully.
+Citizen Mira added successfully.
+Criminal Cherepa added successfully.
+Policeman Skalata added successfully.
+Policeman Stanka added successfully.
+Citizen Alex added successfully.
+Citizen Eva added successfully.
+Paramedic Elena added successfully.
+Police is on the way.
+Police is on the way.
+Target was injured with Wound
+paramedic is on the way.
 ---Report---
 PoliceReport
 Author : Skalata
 Person Alex has run away.
+------------
+---Report---
+PoliceReport
+Author : Stanka
+Person Cherepa has run away.
+------------
+---Report---
+MedicalReport
+Author : Elena
+Person Eva is successfully transport to hospital.
 ------------
