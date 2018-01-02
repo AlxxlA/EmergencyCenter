@@ -27,13 +27,13 @@ namespace EmergencyCenter.Units.Characters
         private int health;
         private int strength;
         private Position position;
-        private Map map;
 
         protected Person(string name, int health, int strength, Position position, Map map, PersonType personType)
         {
             this.Name = name;
             this.Health = health;
             this.Strength = strength;
+            Validator.ValidateNull(map, InvalidMapMessage);
             this.Map = map;
             this.Position = position;
             this.PersonType = personType;
@@ -98,15 +98,7 @@ namespace EmergencyCenter.Units.Characters
 
         public bool IsAlive => this.Health > 0;
 
-        protected Map Map
-        {
-            get => this.map;
-            set
-            {
-                Validator.ValidateNull(value, InvalidMapMessage);
-                this.map = value;
-            }
-        }
+        public Map Map { get; }
 
         public virtual void Update()
         {

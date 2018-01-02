@@ -127,7 +127,7 @@ namespace EmergencyCenter.Units.Characters
 
         private void ReturnToStation()
         {
-            if (this.Route.LastPosition != this.StationPosition)
+            if (this.Route?.LastPosition != this.StationPosition)
             {
                 this.Route = MapUtils.FindShortestRoute(this.Map, this.Position, this.StationPosition);
             }

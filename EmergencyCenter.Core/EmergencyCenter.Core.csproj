@@ -41,13 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine\Command.cs" />
-    <Compile Include="Engine\CommandCenter.cs" />
     <Compile Include="Engine\Engine.cs" />
+    <Compile Include="Factories\CharacterFactory.cs" />
+    <Compile Include="Factories\ICharacterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contracts\" />
-    <Folder Include="Factories\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EmergencyCenter.InputOutput\EmergencyCenter.InputOutput.csproj">
