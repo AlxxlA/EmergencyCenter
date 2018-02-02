@@ -11,7 +11,7 @@ AddParamedic Elena 100 100 0 0 0 16
 Stop
 SendPoliceman 4
 SendPoliceman 7
-InjuredPerson 8 wound
+InjuredPerson 8 Wound
 SendParamedic 8
 Stop
 Terminate

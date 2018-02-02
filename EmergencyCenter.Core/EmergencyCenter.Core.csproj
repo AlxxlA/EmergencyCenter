@@ -40,15 +40,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Command.cs" />
+    <Compile Include="CommandCenter.cs" />
+    <Compile Include="CommandProviders\CommandParser.cs" />
+    <Compile Include="Commands\CreationalCommands\AddCitizenCommand.cs" />
+    <Compile Include="Commands\CreationalCommands\AddCriminalCommand.cs" />
+    <Compile Include="Commands\CreationalCommands\AddParamedicCommand.cs" />
+    <Compile Include="Commands\CreationalCommands\AddPolicemanCommand.cs" />
+    <Compile Include="Commands\CreationalCommands\CreationalCommand.cs" />
+    <Compile Include="Commands\OrderCommands\InjurePersonCommand.cs" />
+    <Compile Include="Commands\OrderCommands\OrderCommand.cs" />
+    <Compile Include="Commands\OrderCommands\SendParamedicCommand.cs" />
+    <Compile Include="Commands\OrderCommands\SendPolicemanCommand.cs" />
+    <Compile Include="Contracts\Commands\ICommand.cs" />
+    <Compile Include="Contracts\Commands\ICommandParser.cs" />
+    <Compile Include="Contracts\Commands\ICommandProcessor.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Contracts\ICommandCenter.cs" />
     <Compile Include="Engine\Engine.cs" />
     <Compile Include="Factories\CharacterFactory.cs" />
     <Compile Include="Factories\ICharacterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\EmergencyCenter.InputOutput\EmergencyCenter.InputOutput.csproj">
       <Project>{8bc4e2c4-97ab-4d10-9f62-b464f894e37b}</Project>
@@ -57,6 +70,10 @@
     <ProjectReference Include="..\EmergencyCenter.Units\EmergencyCenter.Units.csproj">
       <Project>{4db1c01a-791f-40aa-80ca-c54567c28475}</Project>
       <Name>EmergencyCenter.Units</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmergencyCenter.Validation\EmergencyCenter.Validation.csproj">
+      <Project>{a5974cf0-4810-42d5-978c-5cdadc3b0ee2}</Project>
+      <Name>EmergencyCenter.Validation</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

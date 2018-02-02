@@ -12,10 +12,10 @@ namespace EmergencyCenter.Units.Maps
         private const string InvalidRowsCountMessage = "Map rows cannot be less then {0} or greater then {1}.";
         private const string InvalidColsCountMessage = "Map cols cannot be less then {0} or greater then {1}.";
         private const string InvalidPositionMessage = "Given position is out of bounds of map.";
-        private const string InvalidDimensionCountMessage = "Map dimensions shoud be two.";
-        private const string DimensionsNotIntMessage = "Map dimension shoud be integer.";
+        private const string InvalidDimensionCountMessage = "Map dimensions should be two.";
+        private const string DimensionsNotIntMessage = "Map dimension should be integer.";
         private const string InconsistentColsCountMessage = "Inconsistent cols count.";
-        private const string TileNotIntegerMessage = "Map tile shoud be integer.";
+        private const string TileNotIntegerMessage = "Map tile should be integer.";
         private const string XCoordinateOutOfRangeMessage = "Given x coordinate is out of bounds of map.";
         private const string YCoordinateOutOfRangeMessage = "Given y coordinate is out of bounds of map.";
 
