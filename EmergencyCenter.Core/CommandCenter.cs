@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EmergencyCenter.Units.Characters.Contracts;
+using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
-using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Navigation;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core
 {
-    public class CommandCenter
+    public class CommandCenter : ICommandCenter
     {
         private const string UnitAlreadyExistMessage = "Unit already exist and cannot be added again.";
         private const string CannotSendPoliceMessage = "Cannot send police.";
@@ -147,7 +149,7 @@ namespace EmergencyCenter.Core
         public void SendPolicemanToMission(IPerson target)
         {
             IPoliceman policeman = null;
-            Route route = null;
+            IRoute route = null;
             int minDistance = int.MaxValue;
 
             foreach (var person in this.police)
@@ -176,7 +178,7 @@ namespace EmergencyCenter.Core
         public void SendParamedicToMission(IPerson target)
         {
             IParamedic paramedic = null;
-            Route route = null;
+            IRoute route = null;
             int minDistance = int.MaxValue;
 
             foreach (var person in this.paramedics)

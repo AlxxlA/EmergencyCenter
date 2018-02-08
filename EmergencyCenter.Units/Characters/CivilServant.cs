@@ -1,8 +1,9 @@
 ﻿using System;
-using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts;
-using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Navigation;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Units.Characters
@@ -14,10 +15,10 @@ namespace EmergencyCenter.Units.Characters
         private const string InvalidMissionStart = "Servant cannot change route when it is on mission";
 
         private Position stationPosition;
-        private Route route;
+        private IRoute route;
         private IPerson target;
 
-        protected CivilServant(string name, int health, int strength, Position position, Map map, PersonType personType, Position stationPosition)
+        protected CivilServant(string name, int health, int strength, Position position, IMap map, PersonType personType, Position stationPosition)
             : base(name, health, strength, position, map, personType)
         {
             this.StationPosition = stationPosition;
@@ -35,7 +36,7 @@ namespace EmergencyCenter.Units.Characters
 
         public bool IsOnMission { get; protected set; }
 
-        public Route Route
+        public IRoute Route
         {
             get => this.route;
             protected set
@@ -55,22 +56,22 @@ namespace EmergencyCenter.Units.Characters
             }
         }
 
-        protected void GoToAdress(Route newRoute)
+        public virtual void StartMission(IRoute newRoute, IPerson newTarget)
+        {
+            this.GoToAdress(newRoute);
+            this.Target = newTarget;
+            this.IsOnMission = true;
+        }
+
+        public abstract IReport MakeReport();
+
+        protected void GoToAdress(IRoute newRoute)
         {
             if (this.IsOnMission)
             {
                 throw new InvalidOperationException(InvalidMissionStart);
             }
             this.Route = newRoute;
-        }
-
-        public abstract IReport MakeReport();
-
-        public virtual void StartMission(Route newRoute, IPerson newTarget)
-        {
-            this.GoToAdress(newRoute);
-            this.Target = newTarget;
-            this.IsOnMission = true;
         }
 
         protected abstract void CompleteMission();

@@ -1,8 +1,9 @@
 ﻿using System;
-using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
-using EmergencyCenter.Units.Maps;
-using EmergencyCenter.Units.Maps.Enums;
+using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Navigation;
+using EmergencyCenter.Units.Navigation.Enums;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Units.Characters
@@ -28,7 +29,7 @@ namespace EmergencyCenter.Units.Characters
         private int strength;
         private Position position;
 
-        protected Person(string name, int health, int strength, Position position, Map map, PersonType personType)
+        protected Person(string name, int health, int strength, Position position, IMap map, PersonType personType)
         {
             this.Name = name;
             this.Health = health;
@@ -98,7 +99,7 @@ namespace EmergencyCenter.Units.Characters
 
         public bool IsAlive => this.Health > 0;
 
-        public Map Map { get; }
+        public IMap Map { get; }
 
         public virtual void Update()
         {

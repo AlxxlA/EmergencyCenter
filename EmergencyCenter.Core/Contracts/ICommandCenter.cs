@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
-using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Navigation;
 
 namespace EmergencyCenter.Core.Contracts
 {

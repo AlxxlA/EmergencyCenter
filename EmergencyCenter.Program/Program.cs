@@ -6,8 +6,8 @@ namespace EmergencyCenter.Program
     {
         public static void Main()
         {
-            var engine = Engine.Instance;
-            engine.Run();
+            //var engine = Engine.Instance;
+            //engine.Run();
         }
     }
 }

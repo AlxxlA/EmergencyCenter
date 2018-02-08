@@ -30,8 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +49,7 @@
   <ItemGroup>
     <Compile Include="CommandCenter.cs" />
     <Compile Include="CommandProviders\CommandParser.cs" />
+    <Compile Include="CommandProviders\CommandProcessor.cs" />
     <Compile Include="Commands\CreationalCommands\AddCitizenCommand.cs" />
     <Compile Include="Commands\CreationalCommands\AddCriminalCommand.cs" />
     <Compile Include="Commands\CreationalCommands\AddParamedicCommand.cs" />
@@ -55,13 +63,18 @@
     <Compile Include="Contracts\Commands\ICommandParser.cs" />
     <Compile Include="Contracts\Commands\ICommandProcessor.cs" />
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Contracts\Factories\ICommandFactory.cs" />
     <Compile Include="Contracts\ICommandCenter.cs" />
+    <Compile Include="Contracts\IEngine.cs" />
     <Compile Include="Engine\Engine.cs" />
     <Compile Include="Factories\CharacterFactory.cs" />
-    <Compile Include="Factories\ICharacterFactory.cs" />
+    <Compile Include="Contracts\Factories\ICharacterFactory.cs" />
+    <Compile Include="Factories\CommandFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EmergencyCenter.InputOutput\EmergencyCenter.InputOutput.csproj">
       <Project>{8bc4e2c4-97ab-4d10-9f62-b464f894e37b}</Project>

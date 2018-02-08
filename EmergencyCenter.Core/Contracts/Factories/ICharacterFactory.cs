@@ -1,7 +1,7 @@
-﻿using EmergencyCenter.Units.Characters.Contracts;
-using EmergencyCenter.Units.Maps;
+﻿using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Navigation;
 
-namespace EmergencyCenter.Core.Factories
+namespace EmergencyCenter.Core.Contracts.Factories
 {
     public interface ICharacterFactory
     {

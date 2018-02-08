@@ -1,8 +1,9 @@
 ﻿using System;
-using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts;
-using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Navigation;
 
 namespace EmergencyCenter.Units.Characters
 {
@@ -18,7 +19,7 @@ namespace EmergencyCenter.Units.Characters
         private IReport report;
         private bool isOnPath;
 
-        public Policeman(string name, int health, int strength, Position position, Map map, Position stationPosition)
+        public Policeman(string name, int health, int strength, Position position, IMap map, Position stationPosition)
             : base(name, health, strength, position, map, PersonType.Policeman, stationPosition)
         {
         }
@@ -105,10 +106,10 @@ namespace EmergencyCenter.Units.Characters
             {
                 while (true)
                 {
-                    int row = random.Next(0, this.Map.Rows);
-                    int col = random.Next(0, this.Map.Cols);
+                    int row = random.Next(0, this.Map.MaxPositionX);
+                    int col = random.Next(0, this.Map.MaxPositionY);
 
-                    if (this.Map[row, col] == 0 && (row != this.Position.X || col != this.Position.Y))
+                    if (this.Map.IsValidPosition(row, col) && this.Map[row, col] == 0 && (row != this.Position.X || col != this.Position.Y))
                     {
                         var nextAdress = MapUtils.FindShortestRoute(this.Map, this.Position, new Position(row, col));
                         this.GoToAdress(nextAdress);

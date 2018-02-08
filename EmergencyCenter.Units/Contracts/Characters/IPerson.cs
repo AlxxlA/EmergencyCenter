@@ -1,7 +1,8 @@
 ﻿using EmergencyCenter.Units.Characters.Enums;
-using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Navigation;
 
-namespace EmergencyCenter.Units.Characters.Contracts
+namespace EmergencyCenter.Units.Contracts.Characters
 {
     public interface IPerson
     {
@@ -15,7 +16,7 @@ namespace EmergencyCenter.Units.Characters.Contracts
 
         Position Position { get; set; }
 
-        Map Map { get; }
+        IMap Map { get; }
 
         PersonType PersonType { get; }
 

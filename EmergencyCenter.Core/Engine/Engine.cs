@@ -1,42 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using EmergencyCenter.Core.Commands;
-using EmergencyCenter.Core.Factories;
-using EmergencyCenter.InputOutput;
+using EmergencyCenter.Core.Contracts;
+using EmergencyCenter.Core.Contracts.Commands;
 using EmergencyCenter.InputOutput.Contracts;
-using EmergencyCenter.Units;
-using EmergencyCenter.Units.Characters.Enums;
-using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Engine
 {
-    public class Engine
+    public class Engine : IEngine
     {
         private const string InputFileName = @"...\...\...\input.txt";
         private const string OutputFileName = @"...\...\...\output.txt";
         private const string MapFileName = @"...\...\...\Map.txt";
 
-        private readonly ICharacterFactory factory;
-        //  private readonly IReader consoleReader;
-        //  private readonly IWriter consoleWriter;
+        private const string CommandCenterCannotBeNullMessage = "Command center cannot be null.";
+        private const string CommandParserCannotBeNullMessage = "Command parser cannot be null.";
+        private const string CommandProcessorCannnotBeNullMessage = "Command processor cannot be null.";
+        private const string ReaderCannnotBeNullMessage = "Reader cannot be null.";
+        private const string WriterCannnotBeNullMessage = "writer cannot be null.";
+        private const string StopReadCommandsMessage = "Stop";
+        private const string TerminateProgramMessage = "Terminate";
+
+        private readonly ICommandCenter commandCenter;
+        private readonly ICommandParser commandParser;
+        private readonly ICommandProcessor commandProcessor;
         private readonly IReader reader;
         private readonly IWriter writer;
 
-        private readonly Map map;
-        private readonly CommandCenter commandCenter;
-
-        private Engine(ICharacterFactory factory)
+        private Engine(ICommandCenter commandCenter, ICommandParser commandParser, ICommandProcessor commandProcessor,
+            IReader reader, IWriter writer)
         {
-            this.factory = new CharacterFactory();
-            // this.consoleReader = new ConsoleReader();
-            this.consoleWriter = new ConsoleWriter();
-            this.fileReader = new FileReader(InputFileName);
-            this.fileWriter = new FileWriter(OutputFileName);
-            this.map = new Map(MapFileName);
-            this.commandCenter = new CommandCenter(this.map);
+            Validator.ValidateNull(commandCenter, CommandCenterCannotBeNullMessage);
+            Validator.ValidateNull(commandParser, CommandParserCannotBeNullMessage);
+            Validator.ValidateNull(commandProcessor, CommandProcessorCannnotBeNullMessage);
+            Validator.ValidateNull(reader, ReaderCannnotBeNullMessage);
+            Validator.ValidateNull(writer, WriterCannnotBeNullMessage);
+
+            this.commandCenter = commandCenter;
+            this.commandParser = commandParser;
+            this.commandProcessor = commandProcessor;
+            this.reader = reader;
+            this.writer = writer;
         }
-        
+
         public void Run()
         {
             // execute commandExecutor.Update(), when key combination is pressed (Ctrl + F1) - read command and execute it
@@ -58,20 +66,24 @@ namespace EmergencyCenter.Core.Engine
                     if (keyInfo.Modifiers == ConsoleModifiers.Control && keyInfo.Key == ConsoleKey.F1)
                     {
                         // read next command
-                        foreach (var command in this.ReadCommand())
+                        foreach (var line in this.ReadCommand())
                         {
                             // stop reading command
-                            if (command.Name == Command.EndCommandName)
+                            if (line == StopReadCommandsMessage)
                             {
                                 break;
                             }
                             // stop program execution
-                            if (command.Name == Command.TerminateCommandName)
+                            if (line == TerminateProgramMessage || line == null)
                             {
                                 return;
                             }
 
-                            reports.Add(this.ProcessCommand(command));
+                            var command = this.commandParser.ParseCommand(line);
+
+                            var parameters = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToList();
+
+                            reports.Add(this.commandProcessor.ProcessCommand(command, parameters));
                         }
                     }
                 }
@@ -84,22 +96,23 @@ namespace EmergencyCenter.Core.Engine
             }
         }
 
-        private IEnumerable<Command> ReadCommand()
+        private IEnumerable<string> ReadCommand()
         {
-            foreach (var line in this.fileReader.ReadLine())
+            foreach (var line in this.reader.ReadLine())
             {
-                yield return Command.Parse(line);
+                yield return line;
             }
 
             yield return null;
         }
-        
+
         private void PrintReports(IEnumerable<string> reports)
         {
+            Validator.ValidateNull(reports, "Reports cannot be null.");
+
             foreach (var report in reports)
             {
-                this.consoleWriter.WriteLine(report);
-                this.fileWriter.WriteLine(report);
+                this.writer.WriteLine(report);
             }
         }
     }

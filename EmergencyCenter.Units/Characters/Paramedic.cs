@@ -1,8 +1,9 @@
 ﻿using System;
-using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts;
-using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Navigation;
 
 namespace EmergencyCenter.Units.Characters
 {
@@ -19,7 +20,7 @@ namespace EmergencyCenter.Units.Characters
         private bool isOnWayToHospital;
         private bool isWithPatient;
 
-        public Paramedic(string name, int health, int strength, Position position, Map map, Position stationPosition)
+        public Paramedic(string name, int health, int strength, Position position, IMap map, Position stationPosition)
             : base(name, health, strength, position, map, PersonType.Paramedic, stationPosition)
         {
         }
@@ -41,7 +42,7 @@ namespace EmergencyCenter.Units.Characters
             base.Update();
         }
 
-        public override void StartMission(Route route, IPerson target)
+        public override void StartMission(IRoute route, IPerson target)
         {
             base.StartMission(route, target);
             this.isOnWayToTarget = true;

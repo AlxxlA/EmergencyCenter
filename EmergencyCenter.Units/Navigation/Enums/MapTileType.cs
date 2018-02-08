@@ -1,4 +1,4 @@
-﻿namespace EmergencyCenter.Units.Maps.Enums
+﻿namespace EmergencyCenter.Units.Navigation.Enums
 {
     public enum MapTileType
     {

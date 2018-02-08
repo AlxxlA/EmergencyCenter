@@ -1,6 +1,7 @@
-﻿using EmergencyCenter.Units.Characters;
-using EmergencyCenter.Units.Characters.Contracts;
-using EmergencyCenter.Units.Maps;
+﻿using EmergencyCenter.Core.Contracts.Factories;
+using EmergencyCenter.Units.Characters;
+using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Navigation;
 
 namespace EmergencyCenter.Core.Factories
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Core.Contracts.Commands;
-using EmergencyCenter.Core.Factories;
+using EmergencyCenter.Core.Contracts.Factories;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
 {

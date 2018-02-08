@@ -1,4 +1,4 @@
-﻿namespace EmergencyCenter.Units.Characters.Contracts
+﻿namespace EmergencyCenter.Units.Contracts.Characters
 {
     public interface ICriminal : ICitizen
     {

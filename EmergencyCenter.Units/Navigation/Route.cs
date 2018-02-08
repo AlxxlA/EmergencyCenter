@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using EmergencyCenter.Units.Contracts.Navigation;
 
-namespace EmergencyCenter.Units.Maps
+namespace EmergencyCenter.Units.Navigation
 {
-    public class Route
+    public class Route : IRoute
     {
         private readonly IList<Position> positions;
         private int currentPositionIndex;
@@ -57,6 +58,11 @@ namespace EmergencyCenter.Units.Maps
 
             this.currentPositionIndex++;
             return this.positions[this.currentPositionIndex];
+        }
+
+        public override string ToString()
+        {
+            return string.Join(Environment.NewLine, this.positions);
         }
 
         private void CheckForNullOrEmpty()

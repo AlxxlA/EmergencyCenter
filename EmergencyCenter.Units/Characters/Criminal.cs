@@ -1,7 +1,8 @@
 ﻿using System;
-using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
-using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Navigation;
 
 namespace EmergencyCenter.Units.Characters
 {
@@ -9,7 +10,7 @@ namespace EmergencyCenter.Units.Characters
     {
         private int movesToEscape;
 
-        public Criminal(string name, int health, int strength, Position position, Map map)
+        public Criminal(string name, int health, int strength, Position position, IMap map)
             : base(name, health, strength, position, map, PersonType.Criminal)
         {
         }

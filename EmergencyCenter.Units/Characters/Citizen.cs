@@ -1,7 +1,8 @@
 ﻿using System;
-using EmergencyCenter.Units.Characters.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
-using EmergencyCenter.Units.Maps;
+using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Navigation;
 
 namespace EmergencyCenter.Units.Characters
 {
@@ -11,12 +12,12 @@ namespace EmergencyCenter.Units.Characters
         private string currentDirection;
         private int stepsInDirection;
 
-        public Citizen(string name, int health, int strength, Position position, Map map)
+        public Citizen(string name, int health, int strength, Position position, IMap map)
             : base(name, health, strength, position, map, PersonType.Citizen)
         {
         }
 
-        protected Citizen(string name, int health, int strength, Position position, Map map, PersonType personType = PersonType.Citizen)
+        protected Citizen(string name, int health, int strength, Position position, IMap map, PersonType personType = PersonType.Citizen)
             : base(name, health, strength, position, map, personType)
         {
         }
@@ -37,7 +38,7 @@ namespace EmergencyCenter.Units.Characters
             {
                 int nextDirection = rnd.Next(0, this.directions.Length);
                 this.currentDirection = this.directions[nextDirection];
-                int stepsCount = rnd.Next(1, Math.Max(this.Map.Rows, this.Map.Cols));
+                int stepsCount = rnd.Next(1, Math.Max(this.Map.MaxPositionX, this.Map.MaxPositionY));
                 this.stepsInDirection = stepsCount;
             }
             Position nextPosition;
@@ -57,7 +58,7 @@ namespace EmergencyCenter.Units.Characters
                     break;
                 case "down":
                     nextPosition = new Position(this.Position.X + 1, this.Position.Y);
-                    if (this.Position.X >= this.Map.Rows - 1 || this.Map[nextPosition] != 0)
+                    if (this.Position.X >= this.Map.MaxPositionX - 1 || this.Map[nextPosition] != 0)
                     {
                         this.stepsInDirection = 0;
                     }
@@ -81,7 +82,7 @@ namespace EmergencyCenter.Units.Characters
                     break;
                 case "right":
                     nextPosition = new Position(this.Position.X, this.Position.Y + 1);
-                    if (this.Position.Y >= this.Map.Cols - 1 || this.Map[nextPosition] != 0)
+                    if (this.Position.Y >= this.Map.MaxPositionY - 1 || this.Map[nextPosition] != 0)
                     {
                         this.stepsInDirection = 0;
                     }

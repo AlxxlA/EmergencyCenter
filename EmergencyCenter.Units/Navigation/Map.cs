@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EmergencyCenter.InputOutput;
+using EmergencyCenter.Units.Contracts.Navigation;
 using EmergencyCenter.Validation;
 
-namespace EmergencyCenter.Units.Maps
+namespace EmergencyCenter.Units.Navigation
 {
-    public class Map
+    public class Map : IMap
     {
         private const string InvalidFilePathMessage = "Map file was not found.";
         private const string InvalidRowsCountMessage = "Map rows cannot be less then {0} or greater then {1}.";
@@ -33,7 +35,7 @@ namespace EmergencyCenter.Units.Maps
             this.LoadMap();
         }
 
-        public int Rows
+        public int MaxPositionX
         {
             get => this.rows;
             private set
@@ -44,7 +46,7 @@ namespace EmergencyCenter.Units.Maps
             }
         }
 
-        public int Cols
+        public int MaxPositionY
         {
             get => this.cols;
             private set
@@ -95,18 +97,58 @@ namespace EmergencyCenter.Units.Maps
 
         public void ValidatePosition(Position position)
         {
-            if (position.X < 0 || position.X >= this.Rows || position.Y < 0 || position.Y >= this.Cols)
+            if (position.X < 0 || position.X >= this.MaxPositionX || position.Y < 0 || position.Y >= this.MaxPositionY)
             {
                 throw new IndexOutOfRangeException(InvalidPositionMessage);
             }
         }
 
+        public bool IsValidPosition(Position position)
+        {
+            return this.IsValidPosition(position.X, position.Y);
+        }
+
+        public bool IsValidPosition(int x, int y)
+        {
+            if (x < 0 || x >= this.MaxPositionX || y < 0 || y >= this.MaxPositionY)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public IEnumerable<Position> PositionNeighbours(Position position)
+        {
+            this.ValidatePosition(position);
+
+            var neighbours = new List<Position>();
+
+            int[] rowNum = { -1, 0, 0, 1 };
+            int[] colNum = { 0, -1, 1, 0 };
+
+            for (int i = 0; i < rowNum.Length; i++)
+            {
+                int row = position.X + rowNum[i];
+                int col = position.Y + colNum[i];
+
+                var neighbourPosition = new Position(row, col);
+
+                if (this.IsValidPosition(neighbourPosition))
+                {
+                    neighbours.Add(neighbourPosition);
+                }
+            }
+
+            return neighbours;
+        }
+
         public override string ToString()
         {
             var result = new StringBuilder();
-            for (int row = 0; row < this.Rows; row++)
+            for (int row = 0; row < this.rows; row++)
             {
-                for (int col = 0; col < this.Cols; col++)
+                for (int col = 0; col < this.cols; col++)
                 {
                     result.Append(this.map[row, col]);
                 }
@@ -141,9 +183,9 @@ namespace EmergencyCenter.Units.Maps
                         int parsedRows = int.Parse(args[0]);
                         int parsedCols = int.Parse(args[1]);
 
-                        this.Rows = parsedRows;
-                        this.Cols = parsedCols;
-                        this.map = new int[this.Rows, this.Cols];
+                        this.MaxPositionX = parsedRows;
+                        this.MaxPositionY = parsedCols;
+                        this.map = new int[this.MaxPositionX, this.MaxPositionY];
                     }
                     catch (FormatException)
                     {
@@ -152,7 +194,7 @@ namespace EmergencyCenter.Units.Maps
                 }
                 else
                 {
-                    if (args.Length != this.Cols) // expect line in format: row col tileType
+                    if (args.Length != this.cols) // expect line of numbers representing map tiles, e.g 0 1 1 0 1...
                     {
                         throw new IndexOutOfRangeException(InconsistentColsCountMessage);
                     }
@@ -160,7 +202,7 @@ namespace EmergencyCenter.Units.Maps
                     {
                         int[] tiles = args.Select(int.Parse).ToArray();
 
-                        for (int j = 0; j < this.Cols; j++)
+                        for (int j = 0; j < this.cols; j++)
                         {
                             this.map[lineNumber - 1, j] = tiles[j];
                         }
@@ -182,11 +224,11 @@ namespace EmergencyCenter.Units.Maps
         /// <param name="y"></param>
         private void ValidateCoordonates(int x, int y)
         {
-            if (x < 0 || x >= this.Rows)
+            if (x < 0 || x >= this.rows)
             {
                 throw new IndexOutOfRangeException(XCoordinateOutOfRangeMessage);
             }
-            if (y < 0 || y >= this.Cols)
+            if (y < 0 || y >= this.cols)
             {
                 throw new IndexOutOfRangeException(YCoordinateOutOfRangeMessage);
             }

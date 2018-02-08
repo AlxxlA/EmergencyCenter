@@ -1,7 +1,9 @@
-﻿namespace EmergencyCenter.Core.Contracts.Commands
+﻿using System.Collections.Generic;
+
+namespace EmergencyCenter.Core.Contracts.Commands
 {
     public interface ICommandProcessor
     {
-        void ProcessCommand(ICommand command);
+        string ProcessCommand(ICommand command, IList<string> parameters);
     }
 }

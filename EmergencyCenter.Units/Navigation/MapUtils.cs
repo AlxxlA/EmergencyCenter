@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EmergencyCenter.Units.Maps.Enums;
+using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Navigation.Enums;
 
-namespace EmergencyCenter.Units.Maps
+namespace EmergencyCenter.Units.Navigation
 {
     public static class MapUtils
     {
@@ -24,7 +25,7 @@ namespace EmergencyCenter.Units.Maps
             internal Stack<Position> Path { get; } // current path
         }
 
-        public static Route FindShortestRoute(Map map, Position start, Position destination)
+        public static IRoute FindShortestRoute(IMap map, Position start, Position destination)
         {
             var route = new Route();
 
@@ -43,9 +44,9 @@ namespace EmergencyCenter.Units.Maps
                 return route;
             }
 
-            bool[,] visited = new bool[map.Rows, map.Cols];
+            var visited = new HashSet<Position>();
 
-            visited[start.X, start.Y] = true;
+            visited.Add(start);
 
             var path = new Stack<Position>();
 
@@ -69,17 +70,13 @@ namespace EmergencyCenter.Units.Maps
                     break;
                 }
 
-                for (int i = 0; i < 4; i++)
+                foreach (var position in map.PositionNeighbours(currentPosition))
                 {
-                    int row = currentPosition.X + RowNum[i];
-                    int col = currentPosition.Y + ColNum[i];
-
-                    if (IsValidPosition(map, row, col) && map[row, col] == (int)MapTileType.Street && !visited[row, col])
+                    if (map[position] == (int)MapTileType.Street && !visited.Contains(position))
                     {
-                        path.Push(new Position(row, col));
-                        visited[row, col] = true;
-                        var nextPosition = new Position(row, col);
-                        var nextNode = new QueueNode(nextPosition, currentNode.Distance + 1, new Stack<Position>(path.Reverse()));
+                        path.Push(position);
+                        visited.Add(position);
+                        var nextNode = new QueueNode(position, currentNode.Distance + 1, new Stack<Position>(path.Reverse()));
                         queue.Enqueue(nextNode);
                         path.Pop();
                     }
@@ -89,21 +86,8 @@ namespace EmergencyCenter.Units.Maps
             {
                 throw new ArgumentException("Route not found. Position is unreachable.");
             }
+
             return route;
-        }
-
-        private static bool IsValidPosition(Map map, int row, int col)
-        {
-            if (row < 0 || row >= map.Rows)
-            {
-                return false;
-            }
-            if (col < 0 || col >= map.Cols)
-            {
-                return false;
-            }
-
-            return true;
         }
     }
 }
