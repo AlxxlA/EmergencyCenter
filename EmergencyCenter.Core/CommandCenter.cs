@@ -5,7 +5,6 @@ using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
-using EmergencyCenter.Units.Navigation;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core
@@ -14,6 +13,7 @@ namespace EmergencyCenter.Core
     {
         private const string ValidatorCannnotBeNullMessage = "Validator cannot be null.";
         private const string MapCannnotBeNullMessage = "Map cannot be null.";
+        private const string PathFinderCannnotBeNullMessage = "Path Finder cannot be null.";
         private const string UnitAlreadyExistMessage = "Unit already exist and cannot be added again.";
         private const string CannotSendPoliceMessage = "Cannot send police.";
         private const string CannotSendParamedicMessage = "Cannot send paramedic.";
@@ -25,11 +25,13 @@ namespace EmergencyCenter.Core
         private ICollection<ICitizen> citizens;
         private ICollection<ICriminal> criminals;
 
-        public CommandCenter(IMap map, IValidator validator)
+        public CommandCenter(IMap map, IPathFinder pathFinder, IValidator validator)
         {
             this.validator = validator ?? throw new ArgumentNullException(ValidatorCannnotBeNullMessage);
 
             this.validator.ValidateNull(map, MapCannnotBeNullMessage);
+            this.validator.ValidateNull(pathFinder, PathFinderCannnotBeNullMessage);
+            this.PathFinder = pathFinder;
             this.Map = map;
             this.units = new List<IPerson>();
             this.police = new List<IPoliceman>();
@@ -41,6 +43,8 @@ namespace EmergencyCenter.Core
         public IEnumerable<IPerson> Units => this.units;
 
         public IMap Map { get; }
+
+        public IPathFinder PathFinder { get; }
 
         public void UpdateUnits()
         {
@@ -141,7 +145,6 @@ namespace EmergencyCenter.Core
 
         public IPerson ReturnCharacterById(int id)
         {
-            // TODO: throw exception when not found
             var character = this.units.FirstOrDefault(p => p.Id == id);
 
             if (character == null)
@@ -168,7 +171,7 @@ namespace EmergencyCenter.Core
             {
                 if (person.IsAlive && !person.IsOnMission)
                 {
-                    route = MapUtils.FindShortestRoute(this.Map, person.Position, target.Position);
+                    route = this.PathFinder.FindShortestRoute(this.Map, person.Position, target.Position);
 
                     if (route.Length != 0 && route.Length < minDistance)
                     {
@@ -197,7 +200,7 @@ namespace EmergencyCenter.Core
             {
                 if (person.IsAlive && !person.IsOnMission)
                 {
-                    route = MapUtils.FindShortestRoute(this.Map, person.Position, target.Position);
+                    route = this.PathFinder.FindShortestRoute(this.Map, person.Position, target.Position);
 
                     if (route.Length != 0 && route.Length < minDistance)
                     {

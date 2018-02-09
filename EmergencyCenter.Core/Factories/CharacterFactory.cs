@@ -8,14 +8,14 @@ namespace EmergencyCenter.Core.Factories
 {
     public class CharacterFactory : ICharacterFactory
     {
-        public IPerson CreatePoliceman(string name, int health, int strength, int x, int y, int stationX, int stationY, IMap map)
+        public IPerson CreatePoliceman(string name, int health, int strength, int x, int y, int stationX, int stationY, IMap map, IPathFinder pathFinder)
         {
-            return new Policeman(name, health, strength, new Position(x, y), map, new Position(stationX, stationY));
+            return new Policeman(name, health, strength, new Position(x, y), map, new Position(stationX, stationY), pathFinder);
         }
 
-        public IPerson CreateParamedic(string name, int health, int strength, int x, int y, int stationX, int stationY, IMap map)
+        public IPerson CreateParamedic(string name, int health, int strength, int x, int y, int stationX, int stationY, IMap map, IPathFinder pathFinder)
         {
-            return new Paramedic(name, health, strength, new Position(x, y), map, new Position(stationX, stationY));
+            return new Paramedic(name, health, strength, new Position(x, y), map, new Position(stationX, stationY), pathFinder);
         }
 
         public IPerson CreateCitizen(string name, int health, int strength, int x, int y, IMap map)

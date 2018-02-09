@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EmergencyCenter.InputOutput;
+using EmergencyCenter.InputOutput.Contracts;
 using EmergencyCenter.Units.Contracts.Navigation;
 using EmergencyCenter.Validation;
 
@@ -10,8 +10,7 @@ namespace EmergencyCenter.Units.Navigation
 {
     public class Map : IMap
     {
-        private readonly IValidator validator;
-        private const string InvalidFilePathMessage = "Map file was not found.";
+        private const string InvalidFilePathMessage = "Map file reader cannot null.";
         private const string InvalidRowsCountMessage = "Map rows cannot be less then {0} or greater then {1}.";
         private const string InvalidColsCountMessage = "Map cols cannot be less then {0} or greater then {1}.";
         private const string InvalidPositionMessage = "Given position is out of bounds of map.";
@@ -27,14 +26,15 @@ namespace EmergencyCenter.Units.Navigation
         private const int MaxDimension = 100;
 
         private int[,] map;
-        private string mapFilePath;
+        private IFileReader fileReader;
+        private readonly IValidator validator;
         private int rows;
         private int cols;
 
-        public Map(string mapFilePath, IValidator validator)
+        public Map(IFileReader fileReader, IValidator validator)
         {
             this.validator = validator ?? throw new ArgumentNullException(ValidatorCannnotBeNullMessage);
-            this.MapFilePath = mapFilePath;
+            this.FileReader = fileReader;
             this.LoadMap();
         }
 
@@ -60,13 +60,13 @@ namespace EmergencyCenter.Units.Navigation
             }
         }
 
-        public string MapFilePath
+        public IFileReader FileReader
         {
-            get => this.mapFilePath;
+            get => this.fileReader;
             private set
             {
-                this.validator.ValidateFilePath(value, InvalidFilePathMessage);
-                this.mapFilePath = value;
+                this.validator.ValidateNull(value, InvalidFilePathMessage);
+                this.fileReader = value;
             }
         }
 
@@ -166,10 +166,9 @@ namespace EmergencyCenter.Units.Navigation
         /// </summary>
         private void LoadMap()
         {
-            var reader = new FileReader(this.mapFilePath,this.validator);
             int lineNumber = 0;
 
-            foreach (var line in reader.ReadLine())
+            foreach (var line in this.fileReader.ReadLine())
             {
                 string[] args = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 

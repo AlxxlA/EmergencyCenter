@@ -36,7 +36,7 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
             }
 
             var policeman = this.CharacterFactory.CreatePoliceman(this.Name, this.Health, this.Strength,
-                this.PositionX, this.PositionY, stationX, stationY, this.CommandCenter.Map);
+                this.PositionX, this.PositionY, stationX, stationY, this.CommandCenter.Map, this.CommandCenter.PathFinder);
 
             this.CommandCenter.AddCharacter(policeman);
 

@@ -60,6 +60,10 @@
       <Project>{4DB1C01A-791F-40AA-80CA-C54567C28475}</Project>
       <Name>EmergencyCenter.Units</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EmergencyCenter.Validation\EmergencyCenter.Validation.csproj">
+      <Project>{a5974cf0-4810-42d5-978c-5cdadc3b0ee2}</Project>
+      <Name>EmergencyCenter.Validation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

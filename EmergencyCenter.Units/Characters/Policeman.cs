@@ -19,8 +19,8 @@ namespace EmergencyCenter.Units.Characters
         private bool isOnPath;
         private string reportContent;
 
-        public Policeman(string name, int health, int strength, Position position, IMap map, Position stationPosition)
-            : base(name, health, strength, position, map, PersonType.Policeman, stationPosition)
+        public Policeman(string name, int health, int strength, Position position, IMap map, Position stationPosition, IPathFinder pathFinder)
+            : base(name, health, strength, position, map, PersonType.Policeman, stationPosition, pathFinder)
         {
         }
 
@@ -113,7 +113,7 @@ namespace EmergencyCenter.Units.Characters
 
                     if (this.Map.IsValidPosition(row, col) && this.Map[row, col] == 0 && (row != this.Position.X || col != this.Position.Y))
                     {
-                        var nextAdress = MapUtils.FindShortestRoute(this.Map, this.Position, new Position(row, col));
+                        var nextAdress = this.PathFinder.FindShortestRoute(this.Map, this.Position, new Position(row, col));
                         this.GoToAdress(nextAdress);
                         this.isOnPath = true;
                         break;

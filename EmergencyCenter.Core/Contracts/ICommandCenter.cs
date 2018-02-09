@@ -11,6 +11,8 @@ namespace EmergencyCenter.Core.Contracts
 
         IMap Map { get; }
 
+        IPathFinder PathFinder { get; }
+
         void UpdateUnits();
 
         void AddCharacter(IPerson person);

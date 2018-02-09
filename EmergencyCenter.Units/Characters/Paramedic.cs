@@ -20,8 +20,8 @@ namespace EmergencyCenter.Units.Characters
         private bool isWithPatient;
         private string reportContent;
 
-        public Paramedic(string name, int health, int strength, Position position, IMap map, Position stationPosition)
-            : base(name, health, strength, position, map, PersonType.Paramedic, stationPosition)
+        public Paramedic(string name, int health, int strength, Position position, IMap map, Position stationPosition, IPathFinder pathFinder)
+            : base(name, health, strength, position, map, PersonType.Paramedic, stationPosition, pathFinder)
         {
         }
 
@@ -65,7 +65,7 @@ namespace EmergencyCenter.Units.Characters
 
             if (this.Position == this.Target.Position && this.isOnWayToTarget)
             {
-                this.Route = MapUtils.FindShortestRoute(this.Map, this.Position, this.StationPosition);
+                this.Route = this.PathFinder.FindShortestRoute(this.Map, this.Position, this.StationPosition);
                 this.isOnWayToTarget = false;
                 this.isOnWayToHospital = true;
                 this.isWithPatient = true;
@@ -113,7 +113,7 @@ namespace EmergencyCenter.Units.Characters
             {
                 this.reportContent = string.Format(PersonNotFoundMessage, this.Target.Name);
 
-                this.Route = MapUtils.FindShortestRoute(this.Map, this.Position, this.StationPosition);
+                this.Route = this.PathFinder.FindShortestRoute(this.Map, this.Position, this.StationPosition);
                 this.isOnWayToTarget = false;
                 this.isOnWayToHospital = true;
                 this.isWithPatient = false;
@@ -129,7 +129,7 @@ namespace EmergencyCenter.Units.Characters
         {
             if (this.Route?.LastPosition != this.StationPosition)
             {
-                this.Route = MapUtils.FindShortestRoute(this.Map, this.Position, this.StationPosition);
+                this.Route = this.PathFinder.FindShortestRoute(this.Map, this.Position, this.StationPosition);
             }
 
             this.Position = this.Route.NextPosition();

@@ -11,16 +11,18 @@ namespace EmergencyCenter.Units.Characters
     {
         private const string InvalidRouteMessage = "Route cannot be null.";
         private const string InvalidTargetMessage = "Target person cannot be null.";
+        private const string InvalidPathFinderMessage = "Path finder cannot be null.";
         private const string InvalidMissionStart = "Servant cannot change route when it is on mission";
 
         private Position stationPosition;
         private IRoute route;
         private IPerson target;
 
-        protected CivilServant(string name, int health, int strength, Position position, IMap map, PersonType personType, Position stationPosition)
+        protected CivilServant(string name, int health, int strength, Position position, IMap map, PersonType personType, Position stationPosition, IPathFinder pathFinder)
             : base(name, health, strength, position, map, personType)
         {
             this.StationPosition = stationPosition;
+            this.PathFinder = pathFinder ?? throw new ArgumentNullException(InvalidPathFinderMessage);
         }
 
         public Position StationPosition
@@ -32,6 +34,7 @@ namespace EmergencyCenter.Units.Characters
                 this.stationPosition = value;
             }
         }
+
 
         public bool IsOnMission { get; protected set; }
 
@@ -46,6 +49,8 @@ namespace EmergencyCenter.Units.Characters
             get => this.target;
             private set => this.target = value ?? throw new ArgumentNullException(InvalidTargetMessage);
         }
+
+        protected IPathFinder PathFinder { get; }
 
         public virtual void StartMission(IRoute newRoute, IPerson newTarget)
         {

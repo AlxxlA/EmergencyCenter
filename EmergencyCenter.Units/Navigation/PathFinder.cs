@@ -6,7 +6,7 @@ using EmergencyCenter.Units.Navigation.Enums;
 
 namespace EmergencyCenter.Units.Navigation
 {
-    public static class MapUtils
+    public class PathFinder : IPathFinder
     {
         private struct QueueNode
         {
@@ -22,7 +22,7 @@ namespace EmergencyCenter.Units.Navigation
             internal Stack<Position> Path { get; } // current path
         }
 
-        public static IRoute FindShortestRoute(IMap map, Position start, Position destination)
+        public IRoute FindShortestRoute(IMap map, Position start, Position destination)
         {
             var route = new Route();
 
