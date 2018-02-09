@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts.Characters;
-using EmergencyCenter.Units.Navigation;
+using EmergencyCenter.Units.Contracts.Navigation;
 
 namespace EmergencyCenter.Core.Contracts
 {
@@ -9,7 +9,7 @@ namespace EmergencyCenter.Core.Contracts
     {
         IEnumerable<IPerson> Units { get; }
 
-        Map Map { get; }
+        IMap Map { get; }
 
         void UpdateUnits();
 

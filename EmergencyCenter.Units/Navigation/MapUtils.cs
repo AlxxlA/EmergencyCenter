@@ -8,9 +8,6 @@ namespace EmergencyCenter.Units.Navigation
 {
     public static class MapUtils
     {
-        private static readonly int[] RowNum = { -1, 0, 0, 1 };
-        private static readonly int[] ColNum = { 0, -1, 1, 0 };
-
         private struct QueueNode
         {
             internal QueueNode(Position position, int distance, Stack<Position> path) : this()

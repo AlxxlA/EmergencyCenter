@@ -1,25 +1,25 @@
 ﻿using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
-using EmergencyCenter.Core.Contracts.Commands;
 using EmergencyCenter.Core.Contracts.Factories;
+using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
 {
-    public class AddCriminalCommand : CreationalCommand, ICommand
+    public class AddCriminalCommand : CreationalCommand
     {
         private const string AddedSuccessfullyMessage = "Criminal {0} added successfully.";
 
-        public AddCriminalCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory)
-            : base(commandCenter, characterFactory)
+        public AddCriminalCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory, IValidator validator)
+            : base(commandCenter, characterFactory, validator)
         {
         }
 
         public override string Execute(IList<string> parameters)
         {
-            base.ValidateParameters(parameters);
+            this.ValidateParameters(parameters);
 
             //args: name health strength x y
-            base.ParseParameters(parameters);
+            this.ParseParameters(parameters);
 
             var criminal = this.CharacterFactory.CreateCriminal(this.Name, this.Health, this.Strength,
                 this.PositionX, this.PositionY, this.CommandCenter.Map);

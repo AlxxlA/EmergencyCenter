@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
-using EmergencyCenter.Core.Contracts.Commands;
+using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.OrderCommands
 {
-    public class SendPolicemanCommand : OrderCommand, ICommand
+    public class SendPolicemanCommand : OrderCommand
     {
         private const string PoliceIsSendedMessage = "Police is on the way.";
 
-        public SendPolicemanCommand(ICommandCenter commandCenter)
-            : base(commandCenter)
+        public SendPolicemanCommand(ICommandCenter commandCenter, IValidator validator)
+            : base(commandCenter, validator)
         {
         }
 
         public override string Execute(IList<string> parameters)
         {
-            base.ParseParameters(parameters);
+            this.ParseParameters(parameters);
 
             var targetPerson = this.CommandCenter.ReturnCharacterById(this.TargetPersonId);
 

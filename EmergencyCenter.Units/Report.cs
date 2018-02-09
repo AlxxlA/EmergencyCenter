@@ -1,15 +1,24 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using EmergencyCenter.Units.Contracts;
-using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Units
 {
     public class Report : IReport
     {
+        private const string AuthorNullOrWhiteSpaceMessage = "Report author cannot be null or whitespace..";
+        private const string ContentNullOrWhiteSpaceMessage = "Report content cannot be null or whitespace.";
+
         public Report(ReportType reportType, string author, string content)
         {
-            Validator.ValidateStringNullOrEmpty(author, "Report author cannot be null or empty.");
-            Validator.ValidateStringNullOrEmpty(content, "Report content cannot be null or empty.");
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                throw new ArgumentException(ContentNullOrWhiteSpaceMessage);
+            }
+            if (string.IsNullOrWhiteSpace(author))
+            {
+                throw new ArgumentException(AuthorNullOrWhiteSpaceMessage);
+            }
 
             this.ReportType = reportType;
             this.Author = author;

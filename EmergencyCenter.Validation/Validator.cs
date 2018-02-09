@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace EmergencyCenter.Validation
 {
-    public static class Validator
+    public class Validator : IValidator
     {
-        public static void ValidateIntRange(int value, int min, int max, string message)
+        public void ValidateIntRange(int value, int min, int max, string message)
         {
             if (value < min || value > max)
             {
@@ -14,7 +14,7 @@ namespace EmergencyCenter.Validation
             }
         }
 
-        public static void ValidateDecimalRange(decimal value, decimal min, decimal max, string message)
+        public void ValidateDecimalRange(decimal value, decimal min, decimal max, string message)
         {
             if (value < min || value > max)
             {
@@ -22,7 +22,7 @@ namespace EmergencyCenter.Validation
             }
         }
 
-        public static void ValidateNull(object value, string message)
+        public void ValidateNull(object value, string message)
         {
             if (value == null)
             {
@@ -30,7 +30,7 @@ namespace EmergencyCenter.Validation
             }
         }
 
-        public static void ValidateStringEmpty(string value, string message)
+        public void ValidateStringEmpty(string value, string message)
         {
             if (value == string.Empty)
             {
@@ -38,7 +38,7 @@ namespace EmergencyCenter.Validation
             }
         }
 
-        public static void ValidateStringNullOrEmpty(string value, string message)
+        public void ValidateStringNullOrEmpty(string value, string message)
         {
             if (string.IsNullOrEmpty(message))
             {
@@ -46,7 +46,7 @@ namespace EmergencyCenter.Validation
             }
         }
 
-        public static void ValidateSymbols(string value, string pattern, string message)
+        public void ValidateSymbols(string value, string pattern, string message)
         {
             var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 
@@ -56,7 +56,7 @@ namespace EmergencyCenter.Validation
             }
         }
 
-        public static void ValidateFilePath(string path, string message)
+        public void ValidateFilePath(string path, string message)
         {
             if (!File.Exists(path))
             {

@@ -11,15 +11,16 @@ namespace EmergencyCenter.Core.Engine
 {
     public class Engine : IEngine
     {
-        private const string InputFileName = @"...\...\...\input.txt";
-        private const string OutputFileName = @"...\...\...\output.txt";
-        private const string MapFileName = @"...\...\...\Map.txt";
+        //private const string InputFileName = @"...\...\...\input.txt";
+        //private const string OutputFileName = @"...\...\...\output.txt";
+        //private const string MapFileName = @"...\...\...\Map.txt";
 
         private const string CommandCenterCannotBeNullMessage = "Command center cannot be null.";
         private const string CommandParserCannotBeNullMessage = "Command parser cannot be null.";
         private const string CommandProcessorCannnotBeNullMessage = "Command processor cannot be null.";
         private const string ReaderCannnotBeNullMessage = "Reader cannot be null.";
-        private const string WriterCannnotBeNullMessage = "writer cannot be null.";
+        private const string WriterCannnotBeNullMessage = "Writer cannot be null.";
+        private const string ValidatorCannnotBeNullMessage = "Validator cannot be null.";
         private const string StopReadCommandsMessage = "Stop";
         private const string TerminateProgramMessage = "Terminate";
 
@@ -28,15 +29,18 @@ namespace EmergencyCenter.Core.Engine
         private readonly ICommandProcessor commandProcessor;
         private readonly IReader reader;
         private readonly IWriter writer;
+        private readonly IValidator validator;
 
         private Engine(ICommandCenter commandCenter, ICommandParser commandParser, ICommandProcessor commandProcessor,
-            IReader reader, IWriter writer)
+            IReader reader, IWriter writer, IValidator validator)
         {
-            Validator.ValidateNull(commandCenter, CommandCenterCannotBeNullMessage);
-            Validator.ValidateNull(commandParser, CommandParserCannotBeNullMessage);
-            Validator.ValidateNull(commandProcessor, CommandProcessorCannnotBeNullMessage);
-            Validator.ValidateNull(reader, ReaderCannnotBeNullMessage);
-            Validator.ValidateNull(writer, WriterCannnotBeNullMessage);
+            this.validator = validator ?? throw new ArgumentNullException(ValidatorCannnotBeNullMessage);
+
+            this.validator.ValidateNull(commandCenter, CommandCenterCannotBeNullMessage);
+            this.validator.ValidateNull(commandParser, CommandParserCannotBeNullMessage);
+            this.validator.ValidateNull(commandProcessor, CommandProcessorCannnotBeNullMessage);
+            this.validator.ValidateNull(reader, ReaderCannnotBeNullMessage);
+            this.validator.ValidateNull(writer, WriterCannnotBeNullMessage);
 
             this.commandCenter = commandCenter;
             this.commandParser = commandParser;
@@ -108,7 +112,7 @@ namespace EmergencyCenter.Core.Engine
 
         private void PrintReports(IEnumerable<string> reports)
         {
-            Validator.ValidateNull(reports, "Reports cannot be null.");
+            this.validator.ValidateNull(reports, "Reports cannot be null.");
 
             foreach (var report in reports)
             {

@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
-using EmergencyCenter.Core.Contracts.Commands;
 using EmergencyCenter.Units.Characters.Enums;
+using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.OrderCommands
 {
-    public class InjurePersonCommand : OrderCommand, ICommand
+    public class InjurePersonCommand : OrderCommand
     {
         private const string InjuredPersonMessage = "Person was injured with {0}";
         private const string InvalidCommandArgs = "Invalid injure person command args.";
 
-        public InjurePersonCommand(ICommandCenter commandCenter)
-            : base(commandCenter)
+        public InjurePersonCommand(ICommandCenter commandCenter, IValidator validator)
+            : base(commandCenter, validator)
         {
         }
 
         public override string Execute(IList<string> parameters)
         {
-            base.ParseParameters(parameters);
+            this.ParseParameters(parameters);
 
             InjuryType injury;
 
@@ -28,7 +28,7 @@ namespace EmergencyCenter.Core.Commands.OrderCommands
 
                 injury = (InjuryType)Enum.Parse(typeof(InjuryType), injuryStr);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return InvalidCommandArgs;
             }

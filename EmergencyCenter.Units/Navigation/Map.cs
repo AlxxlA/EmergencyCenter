@@ -10,6 +10,7 @@ namespace EmergencyCenter.Units.Navigation
 {
     public class Map : IMap
     {
+        private readonly IValidator validator;
         private const string InvalidFilePathMessage = "Map file was not found.";
         private const string InvalidRowsCountMessage = "Map rows cannot be less then {0} or greater then {1}.";
         private const string InvalidColsCountMessage = "Map cols cannot be less then {0} or greater then {1}.";
@@ -20,6 +21,7 @@ namespace EmergencyCenter.Units.Navigation
         private const string TileNotIntegerMessage = "Map tile should be integer.";
         private const string XCoordinateOutOfRangeMessage = "Given x coordinate is out of bounds of map.";
         private const string YCoordinateOutOfRangeMessage = "Given y coordinate is out of bounds of map.";
+        private const string ValidatorCannnotBeNullMessage = "Validator cannot be null.";
 
         private const int MinDimension = 1;
         private const int MaxDimension = 100;
@@ -29,8 +31,9 @@ namespace EmergencyCenter.Units.Navigation
         private int rows;
         private int cols;
 
-        public Map(string mapFilePath)
+        public Map(string mapFilePath, IValidator validator)
         {
+            this.validator = validator ?? throw new ArgumentNullException(ValidatorCannnotBeNullMessage);
             this.MapFilePath = mapFilePath;
             this.LoadMap();
         }
@@ -41,7 +44,7 @@ namespace EmergencyCenter.Units.Navigation
             private set
             {
                 var invalidMessage = string.Format(InvalidRowsCountMessage, MinDimension, MaxDimension);
-                Validator.ValidateIntRange(value, MinDimension, MaxDimension, invalidMessage);
+                this.validator.ValidateIntRange(value, MinDimension, MaxDimension, invalidMessage);
                 this.rows = value;
             }
         }
@@ -52,7 +55,7 @@ namespace EmergencyCenter.Units.Navigation
             private set
             {
                 var invalidMessage = string.Format(InvalidColsCountMessage, MinDimension, MaxDimension);
-                Validator.ValidateIntRange(value, MinDimension, MaxDimension, invalidMessage);
+                this.validator.ValidateIntRange(value, MinDimension, MaxDimension, invalidMessage);
                 this.cols = value;
             }
         }
@@ -62,7 +65,7 @@ namespace EmergencyCenter.Units.Navigation
             get => this.mapFilePath;
             private set
             {
-                Validator.ValidateFilePath(value, InvalidFilePathMessage);
+                this.validator.ValidateFilePath(value, InvalidFilePathMessage);
                 this.mapFilePath = value;
             }
         }
@@ -163,7 +166,7 @@ namespace EmergencyCenter.Units.Navigation
         /// </summary>
         private void LoadMap()
         {
-            var reader = new FileReader(this.mapFilePath);
+            var reader = new FileReader(this.mapFilePath,this.validator);
             int lineNumber = 0;
 
             foreach (var line in reader.ReadLine())

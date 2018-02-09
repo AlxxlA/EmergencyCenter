@@ -15,10 +15,10 @@ namespace EmergencyCenter.Units.Characters
         private const string PersonDeadOnWayMessage = "Person {0} dead on way to hospital";
         private const string PersonNotFoundMessage = "Person {0} not found";
 
-        private IReport report;
         private bool isOnWayToTarget;
         private bool isOnWayToHospital;
         private bool isWithPatient;
+        private string reportContent;
 
         public Paramedic(string name, int health, int strength, Position position, IMap map, Position stationPosition)
             : base(name, health, strength, position, map, PersonType.Paramedic, stationPosition)
@@ -37,7 +37,7 @@ namespace EmergencyCenter.Units.Characters
                 {
                     this.ReturnToStation();
                 }
-                this.report = null;
+                this.reportContent = null;
             }
             base.Update();
         }
@@ -50,14 +50,18 @@ namespace EmergencyCenter.Units.Characters
 
         public override IReport MakeReport()
         {
-            return this.report;
+            if (this.reportContent == null)
+            {
+                return null;
+            }
+
+            var report = new Report(ReportType.MedicalReport, this.Name, this.reportContent);
+            return report;
         }
 
         protected override void CompleteMission()
         {
             this.Position = this.Route.NextPosition();
-
-            string reportContent;
 
             if (this.Position == this.Target.Position && this.isOnWayToTarget)
             {
@@ -68,15 +72,13 @@ namespace EmergencyCenter.Units.Characters
 
                 if (!this.Target.IsAlive)
                 {
-                    reportContent = string.Format(PersonIsAlreadyDeathMessage, this.Target.Name);
-                    this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
+                    this.reportContent = string.Format(PersonIsAlreadyDeathMessage, this.Target.Name);
                     this.isWithPatient = false;
                     this.IsOnMission = false;
                 }
                 if (this.Target.Health == MaxHealth && !this.Target.IsInjured)
                 {
-                    reportContent = string.Format(PersonIsFineMessage, this.Target.Name);
-                    this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
+                    this.reportContent = string.Format(PersonIsFineMessage, this.Target.Name);
                     this.isWithPatient = false;
                     this.IsOnMission = false;
                 }
@@ -92,27 +94,24 @@ namespace EmergencyCenter.Units.Characters
                 this.Target.Injury = InjuryType.None;
                 this.Target.Health = MaxHealth;
                 this.IsOnMission = false;
-                reportContent = string.Format(PersonTransportToHospitalMessage, this.Target.Name);
-                this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
+                this.reportContent = string.Format(PersonTransportToHospitalMessage, this.Target.Name);
                 return;
             }
             else if (!this.Target.IsAlive && this.isOnWayToHospital && this.isWithPatient)
             {
-                reportContent = string.Format(PersonDeadOnWayMessage, this.Target.Name);
-                this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
+                this.reportContent = string.Format(PersonDeadOnWayMessage, this.Target.Name);
                 this.IsOnMission = false;
                 return;
             }
 
             if (this.isOnWayToHospital && !this.isWithPatient && this.Position != this.Target.Position)
             {
-                this.report = null;
+                this.reportContent = null;
             }
 
             if (this.Position == this.Route.LastPosition && this.Position != this.Target.Position && this.isOnWayToTarget)
             {
-                reportContent = string.Format(PersonNotFoundMessage, this.Target.Name);
-                this.report = new Report(ReportType.MedicalReport, this.Name, reportContent);
+                this.reportContent = string.Format(PersonNotFoundMessage, this.Target.Name);
 
                 this.Route = MapUtils.FindShortestRoute(this.Map, this.Position, this.StationPosition);
                 this.isOnWayToTarget = false;

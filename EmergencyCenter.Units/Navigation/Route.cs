@@ -6,6 +6,8 @@ namespace EmergencyCenter.Units.Navigation
 {
     public class Route : IRoute
     {
+        private const string PositionsCannotBeNullMessage = "List of positions cannot be null.";
+
         private readonly IList<Position> positions;
         private int currentPositionIndex;
 
@@ -16,6 +18,10 @@ namespace EmergencyCenter.Units.Navigation
 
         public Route(IEnumerable<Position> positions)
         {
+            if (positions == null)
+            {
+                throw new ArgumentNullException(PositionsCannotBeNullMessage);
+            }
             this.positions = new List<Position>(positions);
         }
 

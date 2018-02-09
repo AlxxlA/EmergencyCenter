@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts.Commands;
 using EmergencyCenter.Validation;
 
@@ -8,11 +9,19 @@ namespace EmergencyCenter.Core.CommandProviders
     {
         private const string CommandCannotBeNullMessage = "Command cannot be null.";
         private const string ParametersCannotBeNullMessage = "Parameters cannot be null.";
+        private const string ValidatorCannnotBeNullMessage = "Validator cannot be null.";
+
+        private readonly IValidator validator;
+
+        public CommandProcessor(IValidator validator)
+        {
+            this.validator = validator ?? throw new ArgumentNullException(ValidatorCannnotBeNullMessage);
+        }
 
         public string ProcessCommand(ICommand command, IList<string> parameters)
         {
-            Validator.ValidateNull(command, CommandCannotBeNullMessage);
-            Validator.ValidateNull(parameters, ParametersCannotBeNullMessage);
+            this.validator.ValidateNull(command, CommandCannotBeNullMessage);
+            this.validator.ValidateNull(parameters, ParametersCannotBeNullMessage);
 
             var result = command.Execute(parameters);
 

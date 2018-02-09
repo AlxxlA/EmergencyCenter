@@ -4,7 +4,6 @@ using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
 using EmergencyCenter.Units.Navigation;
 using EmergencyCenter.Units.Navigation.Enums;
-using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Units.Characters
 {
@@ -34,8 +33,7 @@ namespace EmergencyCenter.Units.Characters
             this.Name = name;
             this.Health = health;
             this.Strength = strength;
-            Validator.ValidateNull(map, InvalidMapMessage);
-            this.Map = map;
+            this.Map = map ?? throw new ArgumentNullException(InvalidMapMessage);
             this.Position = position;
             this.PersonType = personType;
             this.Injury = InjuryType.None;
@@ -50,7 +48,10 @@ namespace EmergencyCenter.Units.Characters
             get => this.name;
             private set
             {
-                Validator.ValidateStringNullOrEmpty(value, InvalidNameMessage);
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException(InvalidNameMessage);
+                }
                 this.name = value;
             }
         }
@@ -61,7 +62,11 @@ namespace EmergencyCenter.Units.Characters
             set
             {
                 var invalidMessage = string.Format(InvalidHealthMessage, MinHealth, MaxHealth);
-                Validator.ValidateIntRange(value, MinHealth, MaxHealth, invalidMessage);
+                if (value < MinHealth || value > MaxHealth)
+                {
+                    throw new ArgumentException(invalidMessage);
+                }
+
                 this.health = value;
             }
         }
@@ -72,7 +77,10 @@ namespace EmergencyCenter.Units.Characters
             set
             {
                 var invalidMessage = string.Format(InvalidStrengthMessage, MinStrength, MaxStrength);
-                Validator.ValidateIntRange(value, MinStrength, MaxStrength, invalidMessage);
+                if (value < MinStrength || value > MaxStrength)
+                {
+                    throw new ArgumentException(invalidMessage);
+                }
                 this.strength = value;
             }
         }

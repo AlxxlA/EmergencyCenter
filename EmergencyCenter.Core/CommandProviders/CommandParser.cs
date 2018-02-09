@@ -10,18 +10,23 @@ namespace EmergencyCenter.Core.CommandProviders
     {
         private const string CommandFactoryCannotBeNullMessage = "Command factory cannot be null.";
         private const string LineCannotBeNullOrEmptyMessage = "Command line cannot be null or empty.";
+        private const string ValidatorCannnotBeNullMessage = "Validator cannot be null.";
 
         private readonly ICommandFactory commandFactory;
+        private readonly IValidator validator;
 
-        public CommandParser(ICommandFactory commandFactory)
+        public CommandParser(ICommandFactory commandFactory, IValidator validator)
         {
-            Validator.ValidateNull(commandFactory, CommandFactoryCannotBeNullMessage);
+            this.validator = validator ?? throw new ArgumentNullException(ValidatorCannnotBeNullMessage);
+
+            this.validator.ValidateNull(commandFactory, CommandFactoryCannotBeNullMessage);
             this.commandFactory = commandFactory;
+            this.validator = validator;
         }
 
         public ICommand ParseCommand(string line)
         {
-            Validator.ValidateStringNullOrEmpty(line, LineCannotBeNullOrEmptyMessage);
+            this.validator.ValidateStringNullOrEmpty(line, LineCannotBeNullOrEmptyMessage);
 
             var commandArgs = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 

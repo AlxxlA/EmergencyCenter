@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using EmergencyCenter.InputOutput.Contracts;
 using EmergencyCenter.Validation;
@@ -8,12 +9,16 @@ namespace EmergencyCenter.InputOutput
     public class FileReader : IFileReader
     {
         private const string InvalidFileMessage = "File path is invalid.";
+        private const string ValidatorCannnotBeNullMessage = "Validator cannot be null.";
 
         private string path;
+        private readonly IValidator validator;
         private int lineCounter;
 
-        public FileReader(string path)
+        public FileReader(string path, IValidator validator)
         {
+            this.validator = validator ?? throw new ArgumentNullException(ValidatorCannnotBeNullMessage);
+
             this.Path = path;
             this.lineCounter = 0;
         }
@@ -23,7 +28,7 @@ namespace EmergencyCenter.InputOutput
             get => this.path;
             set
             {
-                Validator.ValidateFilePath(value, InvalidFileMessage);
+                this.validator.ValidateFilePath(value, InvalidFileMessage);
                 this.path = value;
             }
         }

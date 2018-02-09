@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using EmergencyCenter.InputOutput.Contracts;
 using EmergencyCenter.Validation;
 
@@ -7,11 +8,14 @@ namespace EmergencyCenter.InputOutput
     public class FileWriter : IFileWriter
     {
         private const string InvalidFileMessage = "File path is invalid.";
+        private const string ValidatorCannnotBeNullMessage = "Validator cannot be null.";
 
         private string path;
+        private readonly IValidator validator;
 
-        public FileWriter(string path, bool append = false)
+        public FileWriter(string path, IValidator validator, bool append = false)
         {
+            this.validator = validator ?? throw new ArgumentNullException(ValidatorCannnotBeNullMessage);
             this.Path = path;
             this.Append = append;
         }
@@ -21,7 +25,7 @@ namespace EmergencyCenter.InputOutput
             get => this.path;
             set
             {
-                Validator.ValidateFilePath(value, InvalidFileMessage);
+                this.validator.ValidateFilePath(value, InvalidFileMessage);
                 this.path = value;
             }
         }

@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
-using EmergencyCenter.Core.Contracts.Commands;
 using EmergencyCenter.Core.Contracts.Factories;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
 {
-    public abstract class CreationalCommand : Command, ICommand
+    public abstract class CreationalCommand : Command
     {
         private const string FactoryCannotBeNullMessage = "CharacterFactory cannot be null.";
         protected const string InvalidArgumentsMessage = "Invalid Add Person args.";
 
-        protected CreationalCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory)
-            : base(commandCenter)
+        protected CreationalCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory, IValidator validator)
+            : base(commandCenter, validator)
         {
-            Validator.ValidateNull(characterFactory, FactoryCannotBeNullMessage);
+            this.Validator.ValidateNull(characterFactory, FactoryCannotBeNullMessage);
             this.CharacterFactory = characterFactory;
         }
 
@@ -42,7 +41,7 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
                 this.PositionX = int.Parse(parameters[3]);
                 this.PositionY = int.Parse(parameters[4]);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ArgumentException(InvalidArgumentsMessage);
             }

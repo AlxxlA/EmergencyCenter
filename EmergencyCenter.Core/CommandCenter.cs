@@ -12,19 +12,24 @@ namespace EmergencyCenter.Core
 {
     public class CommandCenter : ICommandCenter
     {
+        private const string ValidatorCannnotBeNullMessage = "Validator cannot be null.";
+        private const string MapCannnotBeNullMessage = "Map cannot be null.";
         private const string UnitAlreadyExistMessage = "Unit already exist and cannot be added again.";
         private const string CannotSendPoliceMessage = "Cannot send police.";
         private const string CannotSendParamedicMessage = "Cannot send paramedic.";
 
+        private readonly IValidator validator;
         private ICollection<IPerson> units;
         private ICollection<IPoliceman> police;
         private ICollection<IParamedic> paramedics;
         private ICollection<ICitizen> citizens;
         private ICollection<ICriminal> criminals;
 
-        public CommandCenter(Map map)
+        public CommandCenter(IMap map, IValidator validator)
         {
-            Validator.ValidateNull(map, "Map cannot be null.");
+            this.validator = validator ?? throw new ArgumentNullException(ValidatorCannnotBeNullMessage);
+
+            this.validator.ValidateNull(map, MapCannnotBeNullMessage);
             this.Map = map;
             this.units = new List<IPerson>();
             this.police = new List<IPoliceman>();
@@ -35,7 +40,7 @@ namespace EmergencyCenter.Core
 
         public IEnumerable<IPerson> Units => this.units;
 
-        public Map Map { get; }
+        public IMap Map { get; }
 
         public void UpdateUnits()
         {
@@ -137,7 +142,14 @@ namespace EmergencyCenter.Core
         public IPerson ReturnCharacterById(int id)
         {
             // TODO: throw exception when not found
-            return this.units.FirstOrDefault(p => p.Id == id);
+            var character = this.units.FirstOrDefault(p => p.Id == id);
+
+            if (character == null)
+            {
+                throw new ArgumentNullException($"Character with id {id} does not exist.");
+            }
+
+            return character;
         }
 
         public void RemoveCharacterById(int id)
@@ -206,7 +218,7 @@ namespace EmergencyCenter.Core
 
         public void InjurePerson(IPerson person, InjuryType injury)
         {
-            Validator.ValidateNull(person, "Person cannot be null.");
+            this.validator.ValidateNull(person, "Person cannot be null.");
 
             person.Injury = injury;
         }

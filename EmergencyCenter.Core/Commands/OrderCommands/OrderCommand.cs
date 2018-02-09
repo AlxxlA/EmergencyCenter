@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
-using EmergencyCenter.Core.Contracts.Commands;
+using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.OrderCommands
 {
-    public abstract class OrderCommand : Command, ICommand
+    public abstract class OrderCommand : Command
     {
         private const string InvalidArgumentsMessage = "Invalid person id args.";
 
-        protected OrderCommand(ICommandCenter commandCenter)
-            : base(commandCenter)
+        protected OrderCommand(ICommandCenter commandCenter, IValidator validator)
+            : base(commandCenter, validator)
         {
         }
 
@@ -23,7 +23,7 @@ namespace EmergencyCenter.Core.Commands.OrderCommands
             {
                 this.TargetPersonId = int.Parse(parameters[0]);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ArgumentException(InvalidArgumentsMessage);
             }

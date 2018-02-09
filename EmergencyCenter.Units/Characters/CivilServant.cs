@@ -4,7 +4,6 @@ using EmergencyCenter.Units.Contracts;
 using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
 using EmergencyCenter.Units.Navigation;
-using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Units.Characters
 {
@@ -39,21 +38,13 @@ namespace EmergencyCenter.Units.Characters
         public IRoute Route
         {
             get => this.route;
-            protected set
-            {
-                Validator.ValidateNull(value, InvalidRouteMessage);
-                this.route = value;
-            }
+            protected set => this.route = value ?? throw new ArgumentNullException(InvalidRouteMessage);
         }
 
         public IPerson Target
         {
             get => this.target;
-            private set
-            {
-                Validator.ValidateNull(value, InvalidTargetMessage);
-                this.target = value;
-            }
+            private set => this.target = value ?? throw new ArgumentNullException(InvalidTargetMessage);
         }
 
         public virtual void StartMission(IRoute newRoute, IPerson newTarget)

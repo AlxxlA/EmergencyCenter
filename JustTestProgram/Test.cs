@@ -10,15 +10,15 @@ namespace JustTestProgram
     {
         static void Main()
         {
-            IMap map = new Map(
-                @"C:\Users\Alexander\source\repos\TelerikAcademy\EmergencyCenter\JustTestProgram\bin\Debug\Map.txt");
+            //IMap map = new Map(
+            //    @"C:\Users\Alexander\source\repos\TelerikAcademy\EmergencyCenter\JustTestProgram\bin\Debug\Map.txt");
 
-            var route = MapUtils.FindShortestRoute(map, new Position(0, 0), new Position(6, 2));
+            //var route = MapUtils.FindShortestRoute(map, new Position(0, 0), new Position(6, 2));
 
-            Console.WriteLine(map);
+            //Console.WriteLine(map);
 
-            Console.WriteLine();
-            Console.WriteLine(route);
+            //Console.WriteLine();
+            //Console.WriteLine(route);
 
             //var route = MapUtils.FindShortestRoute(map, new Position(0, 1), new Position(6, 5));
             //Console.WriteLine(route.positions.Count);
@@ -46,5 +46,10 @@ namespace JustTestProgram
             //}
 
         }
+    }
+
+    class ValidationTest
+    {
+        public string Name { get; set; }
     }
 }

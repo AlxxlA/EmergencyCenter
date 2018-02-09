@@ -16,8 +16,8 @@ namespace EmergencyCenter.Units.Characters
         private const string PolicemanDiedMessage = "Policeman tragically died.";
         private const string PersonNullMessage = "Policeman cannot check null value person.";
 
-        private IReport report;
         private bool isOnPath;
+        private string reportContent;
 
         public Policeman(string name, int health, int strength, Position position, IMap map, Position stationPosition)
             : base(name, health, strength, position, map, PersonType.Policeman, stationPosition)
@@ -42,42 +42,44 @@ namespace EmergencyCenter.Units.Characters
             {
                 throw new ArgumentNullException(PersonNullMessage);
             }
-            string reportContent;
 
             if (person.PersonType != PersonType.Criminal)
             {
-                reportContent = string.Format(PersonClearMessage, person.Name);
-                this.report = new Report(ReportType.PoliceReport, this.Name, reportContent);
+                this.reportContent = string.Format(PersonClearMessage, person.Name);
                 return;
             }
             if (this.Position == person.Position)
             {
                 if (this.Strength >= person.Strength / 1.3)
                 {
-                    reportContent = string.Format(PersonCaughtMessage, person.Name);
+                    this.reportContent = string.Format(PersonCaughtMessage, person.Name);
                     person.Health = 0;
                 }
                 else if (this.Strength >= person.Strength / 2)
                 {
-                    reportContent = string.Format(PersonEscapeMessage, person.Name);
+                    this.reportContent = string.Format(PersonEscapeMessage, person.Name);
                 }
                 else
                 {
                     this.Health = 0;
-                    reportContent = PolicemanDiedMessage;
+                    this.reportContent = PolicemanDiedMessage;
                 }
             }
             else
             {
-                reportContent = string.Format(PersonNotFoundMessage, person.Name);
+                this.reportContent = string.Format(PersonNotFoundMessage, person.Name);
             }
-
-            this.report = new Report(ReportType.PoliceReport, this.Name, reportContent);
         }
 
         public override IReport MakeReport()
         {
-            return this.report;
+            if (this.reportContent == null)
+            {
+                return null;
+            }
+
+            var report = new Report(ReportType.PoliceReport, this.Name, this.reportContent);
+            return report;
         }
 
         protected override void CompleteMission()
@@ -93,8 +95,8 @@ namespace EmergencyCenter.Units.Characters
 
             if (this.Position == this.Route.LastPosition && this.Position != this.Target.Position)
             {
-                string reportContent = string.Format(PersonNotFoundMessage, this.Target.Name);
-                this.report = new Report(ReportType.PoliceReport, this.Name, reportContent);
+                this.reportContent = string.Format(PersonNotFoundMessage, this.Target.Name);
+
                 this.IsOnMission = false;
             }
         }
@@ -127,7 +129,7 @@ namespace EmergencyCenter.Units.Characters
                 }
             }
 
-            this.report = null;
+            this.reportContent = null;
         }
     }
 }
