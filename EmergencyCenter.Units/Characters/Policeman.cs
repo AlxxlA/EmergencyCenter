@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts;
 using EmergencyCenter.Units.Contracts.Characters;
@@ -18,14 +19,17 @@ namespace EmergencyCenter.Units.Characters
 
         private bool isOnPath;
         private string reportContent;
+        private ICollection<IPerson> checkedPersons;
 
         public Policeman(string name, int health, int strength, Position position, IMap map, Position stationPosition, IPathFinder pathFinder)
             : base(name, health, strength, position, map, PersonType.Policeman, stationPosition, pathFinder)
         {
+            this.checkedPersons = new HashSet<IPerson>();
         }
 
         public override void Update()
         {
+            this.reportContent = null;
             if (this.IsOnMission)
             {
                 this.CompleteMission();
@@ -38,10 +42,17 @@ namespace EmergencyCenter.Units.Characters
 
         public void CheckCitizen(IPerson person)
         {
+            this.reportContent = null;
             if (person == null)
             {
                 throw new ArgumentNullException(PersonNullMessage);
             }
+            if (this.checkedPersons.Contains(person))
+            {
+                return;
+            }
+
+            this.checkedPersons.Add(person);
 
             if (person.PersonType != PersonType.Criminal)
             {

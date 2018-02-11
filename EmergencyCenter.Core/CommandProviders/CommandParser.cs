@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EmergencyCenter.Core.Contracts.CommandProviders;
 using EmergencyCenter.Core.Contracts.Commands;
 using EmergencyCenter.Core.Contracts.Factories;
 using EmergencyCenter.Validation;

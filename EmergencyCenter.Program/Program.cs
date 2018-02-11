@@ -1,4 +1,6 @@
-﻿using EmergencyCenter.Core.Engine;
+﻿using Autofac;
+using EmergencyCenter.Core.Contracts.Engine;
+using EmergencyCenter.Program.InjectionConfig;
 
 namespace EmergencyCenter.Program
 {
@@ -6,8 +8,12 @@ namespace EmergencyCenter.Program
     {
         public static void Main()
         {
-            //var engine = Engine.Instance;
-            //engine.Run();
+            var containerConfig = new AutofacConfig();
+            var container = containerConfig.Build();
+
+            var engine = container.Resolve<IEngine>();
+
+            engine.Run();
         }
     }
 }

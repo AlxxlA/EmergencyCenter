@@ -102,18 +102,11 @@ namespace EmergencyCenter.Core
 
         public void UpdateUnits()
         {
-            foreach (var paramedic in this.paramedics)
+            foreach (var person in this.persons)
             {
-                paramedic.Update();
+                person.Update();
             }
-            foreach (var citizen in this.citizens)
-            {
-                citizen.Update();
-            }
-            foreach (var criminal in this.criminals)
-            {
-                criminal.Update();
-            }
+           
             foreach (var policeman in this.policemans)
             {
                 foreach (var citizen in this.citizens)

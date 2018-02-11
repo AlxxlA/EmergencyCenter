@@ -1,5 +1,5 @@
 ---Report---
-MedicalReport
-Author : Elena
-Person Eva is already death.
+PoliceReport
+Author : Stanka
+Person Mira is clear
 ------------

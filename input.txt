@@ -1,17 +1,17 @@
-AddPoliceman Pesho 50 100 0 1 0 0
-AddParamedic Gosho 100 100 0 16 0 16
-AddCitizen Mira 100 100 0 5
-AddCriminal Cherepa 100 100 4 16
-Stop
-AddPoliceman Skalata 100 100 0 4 0 0
-AddPoliceman Stanka 100 100 8 3 0 0
-AddCitizen Alex 100 100 4 4
-AddCitizen Eva 100 100 4 8
-AddParamedic Elena 100 100 0 0 0 16
-Stop
-SendPoliceman 4
-SendPoliceman 7
-InjuredPerson 8 Wound
-SendParamedic 8
-Stop
-Terminate
+addpoliceman Pesho 50 100 0 1 0 0
+addparamedic Gosho 100 100 0 16 0 16
+addcitizen Mira 100 100 0 5
+addcriminal Cherepa 100 100 4 16
+stop
+addpoliceman Skalata 100 100 0 4 0 0
+addpoliceman Stanka 100 100 8 3 0 0
+addcitizen Alex 100 100 4 4
+addcitizen Eva 100 100 4 8
+addparamedic Elena 100 100 0 0 0 16
+stop
+sendpoliceman 4
+sendpoliceman 7
+injuredperson 8 Wound
+sendparamedic 8
+stop
+terminate

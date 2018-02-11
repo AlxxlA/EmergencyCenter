@@ -60,8 +60,8 @@
     <Compile Include="Commands\OrderCommands\SendParamedicCommand.cs" />
     <Compile Include="Commands\OrderCommands\SendPolicemanCommand.cs" />
     <Compile Include="Contracts\Commands\ICommand.cs" />
-    <Compile Include="Contracts\Commands\ICommandParser.cs" />
-    <Compile Include="Contracts\Commands\ICommandProcessor.cs" />
+    <Compile Include="Contracts\CommandProviders\ICommandParser.cs" />
+    <Compile Include="Contracts\CommandProviders\ICommandProcessor.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Contracts\Factories\ICommandFactory.cs" />
     <Compile Include="Contracts\ICommandCenter.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EmergencyCenter.Core.Contracts.CommandProviders;
 using EmergencyCenter.Core.Contracts.Commands;
 using EmergencyCenter.Validation;
 

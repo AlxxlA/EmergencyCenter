@@ -32,8 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,17 +49,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InjectionConfig\AutofacConfig.cs" />
+    <Compile Include="InjectionConfig\Modules\Core\CommandCenterModule.cs" />
+    <Compile Include="InjectionConfig\Modules\Core\CommandProvidersModule.cs" />
+    <Compile Include="InjectionConfig\Modules\Core\CommandsModule.cs" />
+    <Compile Include="InjectionConfig\Modules\Core\DataModule.cs" />
+    <Compile Include="InjectionConfig\Modules\Core\EngineModule.cs" />
+    <Compile Include="InjectionConfig\Modules\Core\FactoriesModule.cs" />
+    <Compile Include="InjectionConfig\Modules\IO\InputOutputModule.cs" />
+    <Compile Include="InjectionConfig\Modules\Units\NavigationModule.cs" />
+    <Compile Include="InjectionConfig\Modules\Validation\ValidationModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EmergencyCenter.Core\EmergencyCenter.Core.csproj">
       <Project>{74171df1-e467-43c0-b457-96767022101c}</Project>
       <Name>EmergencyCenter.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EmergencyCenter.InputOutput\EmergencyCenter.InputOutput.csproj">
+      <Project>{8bc4e2c4-97ab-4d10-9f62-b464f894e37b}</Project>
+      <Name>EmergencyCenter.InputOutput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmergencyCenter.Units\EmergencyCenter.Units.csproj">
+      <Project>{4db1c01a-791f-40aa-80ca-c54567c28475}</Project>
+      <Name>EmergencyCenter.Units</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmergencyCenter.Validation\EmergencyCenter.Validation.csproj">
+      <Project>{a5974cf0-4810-42d5-978c-5cdadc3b0ee2}</Project>
+      <Name>EmergencyCenter.Validation</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

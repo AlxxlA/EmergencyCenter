@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using EmergencyCenter.Core.Contracts.Commands;
 
-namespace EmergencyCenter.Core.Contracts.Commands
+namespace EmergencyCenter.Core.Contracts.CommandProviders
 {
     public interface ICommandProcessor
     {
