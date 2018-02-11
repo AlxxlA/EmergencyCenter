@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Core.Contracts.Factories;
+using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
@@ -38,7 +39,8 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
             var policeman = this.CharacterFactory.CreatePoliceman(this.Name, this.Health, this.Strength,
                 this.PositionX, this.PositionY, stationX, stationY, this.CommandCenter.Map, this.CommandCenter.PathFinder);
 
-            this.CommandCenter.AddCharacter(policeman);
+            this.CommandCenter.Policemans.Add(policeman as IPoliceman);
+            this.CommandCenter.Persons.Add(policeman);
 
             return string.Format(AddedSuccessfullyMessage, this.Name);
         }

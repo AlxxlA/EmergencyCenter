@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Core.Contracts.Factories;
+using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
@@ -24,7 +25,8 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
             var citizen = this.CharacterFactory.CreateCitizen(this.Name, this.Health, this.Strength,
                 this.PositionX, this.PositionY, this.CommandCenter.Map);
 
-            this.CommandCenter.AddCharacter(citizen);
+            this.CommandCenter.Citizens.Add(citizen as ICitizen);
+            this.CommandCenter.Persons.Add(citizen);
 
             return string.Format(AddedSuccessfullyMessage, this.Name);
         }

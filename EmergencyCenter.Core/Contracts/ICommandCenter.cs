@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EmergencyCenter.Core.Contracts.Data;
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
@@ -7,21 +8,21 @@ namespace EmergencyCenter.Core.Contracts
 {
     public interface ICommandCenter
     {
-        IEnumerable<IPerson> Units { get; }
+        IDatabase<IPerson> Persons { get; }
+
+        IDatabase<IPoliceman> Policemans { get; }
+
+        IDatabase<IParamedic> Paramedics { get; }
+
+        IDatabase<ICitizen> Citizens { get; }
+
+        IDatabase<ICriminal> Criminals { get; }
 
         IMap Map { get; }
 
         IPathFinder PathFinder { get; }
 
         void UpdateUnits();
-
-        void AddCharacter(IPerson person);
-
-        void RemoveCharacter(IPerson person);
-
-        IPerson ReturnCharacterById(int id);
-
-        void RemoveCharacterById(int id);
 
         void SendPolicemanToMission(IPerson target);
 

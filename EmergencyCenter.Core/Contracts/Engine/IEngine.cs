@@ -1,4 +1,4 @@
-﻿namespace EmergencyCenter.Core.Contracts
+﻿namespace EmergencyCenter.Core.Contracts.Engine
 {
     public interface IEngine
     {

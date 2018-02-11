@@ -17,7 +17,7 @@ namespace EmergencyCenter.Core.Commands.OrderCommands
         {
             this.ParseParameters(parameters);
 
-            var targetPerson = this.CommandCenter.ReturnCharacterById(this.TargetPersonId);
+            var targetPerson = this.CommandCenter.Persons.ReturnByCriteria(p => p.Id == this.TargetPersonId);
 
             this.CommandCenter.SendParamedicToMission(targetPerson);
 

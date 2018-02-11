@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Core.Contracts.Factories;
+using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
@@ -24,7 +25,8 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
             var criminal = this.CharacterFactory.CreateCriminal(this.Name, this.Health, this.Strength,
                 this.PositionX, this.PositionY, this.CommandCenter.Map);
 
-            this.CommandCenter.AddCharacter(criminal);
+            this.CommandCenter.Criminals.Add(criminal as ICriminal);
+            this.CommandCenter.Persons.Add(criminal);
 
             return string.Format(AddedSuccessfullyMessage, this.Name);
         }

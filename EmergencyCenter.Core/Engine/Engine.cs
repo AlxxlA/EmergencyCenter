@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Core.Contracts.Commands;
+using EmergencyCenter.Core.Contracts.Engine;
 using EmergencyCenter.InputOutput.Contracts;
 using EmergencyCenter.Validation;
 

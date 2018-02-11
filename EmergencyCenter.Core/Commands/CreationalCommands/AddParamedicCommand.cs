@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Core.Contracts.Factories;
+using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
@@ -38,7 +39,8 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
             var paramedic = this.CharacterFactory.CreateParamedic(this.Name, this.Health, this.Strength,
                 this.PositionX, this.PositionY, stationX, stationY, this.CommandCenter.Map, this.CommandCenter.PathFinder);
 
-            this.CommandCenter.AddCharacter(paramedic);
+            this.CommandCenter.Paramedics.Add(paramedic as IParamedic);
+            this.CommandCenter.Persons.Add(paramedic);
 
             return string.Format(AddedSuccessfullyMessage, this.Name);
         }
