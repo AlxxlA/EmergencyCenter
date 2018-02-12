@@ -98,7 +98,7 @@ namespace EmergencyCenter.Core.Data
             }
         }
 
-        public TPerson ReturnByCriteria(Predicate<TPerson> match)
+        public TPerson Find(Predicate<TPerson> match)
         {
             if (match == null)
             {
@@ -116,7 +116,7 @@ namespace EmergencyCenter.Core.Data
             return default(TPerson);
         }
 
-        public IEnumerable<TPerson> ReturnAllByCriteria(Predicate<TPerson> match)
+        public IEnumerable<TPerson> FindAll(Predicate<TPerson> match)
         {
             if (match == null)
             {

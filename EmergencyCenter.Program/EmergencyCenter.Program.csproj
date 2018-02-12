@@ -57,6 +57,7 @@
     <Compile Include="InjectionConfig\Modules\Core\EngineModule.cs" />
     <Compile Include="InjectionConfig\Modules\Core\FactoriesModule.cs" />
     <Compile Include="InjectionConfig\Modules\IO\InputOutputModule.cs" />
+    <Compile Include="InjectionConfig\Modules\Units\RandomModule.cs" />
     <Compile Include="InjectionConfig\Modules\Units\NavigationModule.cs" />
     <Compile Include="InjectionConfig\Modules\Validation\ValidationModule.cs" />
     <Compile Include="Program.cs" />

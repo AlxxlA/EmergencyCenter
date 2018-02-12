@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Core.Contracts.Factories;
 using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Contracts.Random;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
@@ -12,8 +13,8 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
         private const string AddedSuccessfullyMessage = "Paramedic {0} added successfully.";
         private const string InvalidAddParamedicArgumentsMessage = "Invalid Add paramedic args.";
 
-        public AddParamedicCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory, IValidator validator)
-            : base(commandCenter, characterFactory, validator)
+        public AddParamedicCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory, IValidator validator, IRandomGenerator random)
+            : base(commandCenter, characterFactory, validator, random)
         {
         }
 
@@ -37,7 +38,7 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
             }
 
             var paramedic = this.CharacterFactory.CreateParamedic(this.Name, this.Health, this.Strength,
-                this.PositionX, this.PositionY, stationX, stationY, this.CommandCenter.Map, this.CommandCenter.PathFinder);
+                this.PositionX, this.PositionY, stationX, stationY, this.CommandCenter.Map, this.CommandCenter.PathFinder, this.Random);
 
             this.CommandCenter.Paramedics.Add(paramedic as IParamedic);
             this.CommandCenter.Persons.Add(paramedic);

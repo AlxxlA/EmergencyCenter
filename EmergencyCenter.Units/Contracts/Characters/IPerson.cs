@@ -12,7 +12,7 @@ namespace EmergencyCenter.Units.Contracts.Characters
 
         int Health { get; set; }
 
-        int Strength { get; set; }
+        int Strength { get; }
 
         Position Position { get; set; }
 

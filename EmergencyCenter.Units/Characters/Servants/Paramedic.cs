@@ -3,9 +3,10 @@ using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts;
 using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Contracts.Random;
 using EmergencyCenter.Units.Navigation;
 
-namespace EmergencyCenter.Units.Characters
+namespace EmergencyCenter.Units.Characters.Servants
 {
     public class Paramedic : CivilServant, IParamedic
     {
@@ -20,8 +21,8 @@ namespace EmergencyCenter.Units.Characters
         private bool isWithPatient;
         private string reportContent;
 
-        public Paramedic(string name, int health, int strength, Position position, IMap map, Position stationPosition, IPathFinder pathFinder)
-            : base(name, health, strength, position, map, PersonType.Paramedic, stationPosition, pathFinder)
+        public Paramedic(string name, int health, int strength, Position position, IMap map, Position stationPosition, IPathFinder pathFinder, IRandomGenerator random)
+            : base(name, health, strength, position, map, PersonType.Paramedic, stationPosition, pathFinder, random)
         {
         }
 

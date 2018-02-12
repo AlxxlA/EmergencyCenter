@@ -4,9 +4,10 @@ using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts;
 using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Contracts.Random;
 using EmergencyCenter.Units.Navigation;
 
-namespace EmergencyCenter.Units.Characters
+namespace EmergencyCenter.Units.Characters.Servants
 {
     public class Policeman : CivilServant, IPoliceman
     {
@@ -19,10 +20,10 @@ namespace EmergencyCenter.Units.Characters
 
         private bool isOnPath;
         private string reportContent;
-        private ICollection<IPerson> checkedPersons;
+        private readonly ICollection<IPerson> checkedPersons;
 
-        public Policeman(string name, int health, int strength, Position position, IMap map, Position stationPosition, IPathFinder pathFinder)
-            : base(name, health, strength, position, map, PersonType.Policeman, stationPosition, pathFinder)
+        public Policeman(string name, int health, int strength, Position position, IMap map, Position stationPosition, IPathFinder pathFinder, IRandomGenerator random)
+            : base(name, health, strength, position, map, PersonType.Policeman, stationPosition, pathFinder, random)
         {
             this.checkedPersons = new HashSet<IPerson>();
         }
@@ -114,13 +115,12 @@ namespace EmergencyCenter.Units.Characters
 
         private void Patrol()
         {
-            var random = new Random();
             if (!this.isOnPath)
             {
                 while (true)
                 {
-                    int row = random.Next(0, this.Map.MaxPositionX);
-                    int col = random.Next(0, this.Map.MaxPositionY);
+                    int row = this.Random.Next(0, this.Map.MaxPositionX);
+                    int col = this.Random.Next(0, this.Map.MaxPositionY);
 
                     if (this.Map.IsValidPosition(row, col) && this.Map[row, col] == 0 && (row != this.Position.X || col != this.Position.Y))
                     {

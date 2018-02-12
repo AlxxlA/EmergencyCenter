@@ -2,6 +2,7 @@
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Contracts.Random;
 using EmergencyCenter.Units.Navigation;
 using EmergencyCenter.Units.Navigation.Enums;
 
@@ -13,6 +14,7 @@ namespace EmergencyCenter.Units.Characters
         private const string InvalidHealthMessage = "Health cannot be less then {0} or greater then {1}.";
         private const string InvalidStrengthMessage = "Strength cannot be less then {0} or greater then {1}.";
         private const string InvalidMapMessage = "Map cannot be null.";
+        private const string InvalidRandomGeneratorMessage = "Random generator cannot be null.";
         private const string InvalidPossitionMessage = "Given position is invalid.";
 
         protected const int MinHealth = 0;
@@ -28,7 +30,7 @@ namespace EmergencyCenter.Units.Characters
         private int strength;
         private Position position;
 
-        protected Person(string name, int health, int strength, Position position, IMap map, PersonType personType)
+        protected Person(string name, int health, int strength, Position position, IMap map, PersonType personType, IRandomGenerator random)
         {
             this.Name = name;
             this.Health = health;
@@ -36,6 +38,7 @@ namespace EmergencyCenter.Units.Characters
             this.Map = map ?? throw new ArgumentNullException(InvalidMapMessage);
             this.Position = position;
             this.PersonType = personType;
+            this.Random = random ?? throw new ArgumentNullException(InvalidRandomGeneratorMessage);
             this.Injury = InjuryType.None;
             this.Id = idCounter;
             idCounter++;
@@ -74,7 +77,7 @@ namespace EmergencyCenter.Units.Characters
         public int Strength
         {
             get => this.strength;
-            set
+            protected set
             {
                 var invalidMessage = string.Format(InvalidStrengthMessage, MinStrength, MaxStrength);
                 if (value < MinStrength || value > MaxStrength)
@@ -108,6 +111,8 @@ namespace EmergencyCenter.Units.Characters
         public bool IsAlive => this.Health > 0;
 
         public IMap Map { get; }
+
+        protected IRandomGenerator Random { get; }
 
         public virtual void Update()
         {

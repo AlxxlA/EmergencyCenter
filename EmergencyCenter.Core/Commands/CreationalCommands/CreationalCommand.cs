@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Core.Contracts.Factories;
+using EmergencyCenter.Units.Contracts.Random;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
@@ -11,14 +12,16 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
         private const string FactoryCannotBeNullMessage = "CharacterFactory cannot be null.";
         protected const string InvalidArgumentsMessage = "Invalid Add Person args.";
 
-        protected CreationalCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory, IValidator validator)
+        protected CreationalCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory, IValidator validator, IRandomGenerator random)
             : base(commandCenter, validator)
         {
             this.Validator.ValidateNull(characterFactory, FactoryCannotBeNullMessage);
             this.CharacterFactory = characterFactory;
+            this.Random = random;
         }
 
         protected ICharacterFactory CharacterFactory { get; }
+
 
         protected string Name { get; private set; }
 
@@ -29,6 +32,8 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
         protected int PositionX { get; private set; }
 
         protected int PositionY { get; private set; }
+
+        protected IRandomGenerator Random { get; }
 
         protected void ParseParameters(IList<string> parameters)
         {

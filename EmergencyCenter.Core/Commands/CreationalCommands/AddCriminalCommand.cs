@@ -2,6 +2,7 @@
 using EmergencyCenter.Core.Contracts;
 using EmergencyCenter.Core.Contracts.Factories;
 using EmergencyCenter.Units.Contracts.Characters;
+using EmergencyCenter.Units.Contracts.Random;
 using EmergencyCenter.Validation;
 
 namespace EmergencyCenter.Core.Commands.CreationalCommands
@@ -10,8 +11,8 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
     {
         private const string AddedSuccessfullyMessage = "Criminal {0} added successfully.";
 
-        public AddCriminalCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory, IValidator validator)
-            : base(commandCenter, characterFactory, validator)
+        public AddCriminalCommand(ICommandCenter commandCenter, ICharacterFactory characterFactory, IValidator validator, IRandomGenerator random)
+            : base(commandCenter, characterFactory, validator, random)
         {
         }
 
@@ -23,7 +24,7 @@ namespace EmergencyCenter.Core.Commands.CreationalCommands
             this.ParseParameters(parameters);
 
             var criminal = this.CharacterFactory.CreateCriminal(this.Name, this.Health, this.Strength,
-                this.PositionX, this.PositionY, this.CommandCenter.Map);
+                this.PositionX, this.PositionY, this.CommandCenter.Map, this.Random);
 
             this.CommandCenter.Criminals.Add(criminal as ICriminal);
             this.CommandCenter.Persons.Add(criminal);

@@ -3,9 +3,10 @@ using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts;
 using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Contracts.Random;
 using EmergencyCenter.Units.Navigation;
 
-namespace EmergencyCenter.Units.Characters
+namespace EmergencyCenter.Units.Characters.Servants
 {
     public abstract class CivilServant : Person, ICivilServant
     {
@@ -18,8 +19,8 @@ namespace EmergencyCenter.Units.Characters
         private IRoute route;
         private IPerson target;
 
-        protected CivilServant(string name, int health, int strength, Position position, IMap map, PersonType personType, Position stationPosition, IPathFinder pathFinder)
-            : base(name, health, strength, position, map, personType)
+        protected CivilServant(string name, int health, int strength, Position position, IMap map, PersonType personType, Position stationPosition, IPathFinder pathFinder, IRandomGenerator random)
+            : base(name, health, strength, position, map, personType, random)
         {
             this.StationPosition = stationPosition;
             this.PathFinder = pathFinder ?? throw new ArgumentNullException(InvalidPathFinderMessage);

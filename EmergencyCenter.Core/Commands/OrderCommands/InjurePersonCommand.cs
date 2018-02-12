@@ -33,7 +33,7 @@ namespace EmergencyCenter.Core.Commands.OrderCommands
                 return InvalidCommandArgs;
             }
 
-            var person = this.CommandCenter.Persons.ReturnByCriteria(p => p.Id == this.TargetPersonId);
+            var person = this.CommandCenter.Persons.Find(p => p.Id == this.TargetPersonId);
 
             this.CommandCenter.InjurePerson(person, injury);
 

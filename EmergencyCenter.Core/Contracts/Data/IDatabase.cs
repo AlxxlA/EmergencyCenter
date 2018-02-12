@@ -13,8 +13,8 @@ namespace EmergencyCenter.Core.Contracts.Data
 
         void RemoveAllByCriteria(Predicate<T> match);
 
-        T ReturnByCriteria(Predicate<T> match);
+        T Find(Predicate<T> match);
 
-        IEnumerable<T> ReturnAllByCriteria(Predicate<T> match);
+        IEnumerable<T> FindAll(Predicate<T> match);
     }
 }

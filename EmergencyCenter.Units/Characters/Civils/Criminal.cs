@@ -1,17 +1,17 @@
-﻿using System;
-using EmergencyCenter.Units.Characters.Enums;
+﻿using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Contracts.Random;
 using EmergencyCenter.Units.Navigation;
 
-namespace EmergencyCenter.Units.Characters
+namespace EmergencyCenter.Units.Characters.Civils
 {
     public class Criminal : Citizen, ICriminal
     {
         private int movesToEscape;
 
-        public Criminal(string name, int health, int strength, Position position, IMap map)
-            : base(name, health, strength, position, map, PersonType.Criminal)
+        public Criminal(string name, int health, int strength, Position position, IMap map, IRandomGenerator random)
+            : base(name, health, strength, position, map, random, PersonType.Criminal)
         {
         }
 
@@ -19,8 +19,7 @@ namespace EmergencyCenter.Units.Characters
 
         public override void Update()
         {
-            var rnd = new Random();
-            bool isRun = rnd.Next(0, 101) < 10;
+            bool isRun = this.Random.Next(0, 101) < 10;
 
             if (!this.IsAlive || !isRun) return;
 

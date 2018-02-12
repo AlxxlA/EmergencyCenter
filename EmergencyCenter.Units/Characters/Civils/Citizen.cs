@@ -2,9 +2,10 @@
 using EmergencyCenter.Units.Characters.Enums;
 using EmergencyCenter.Units.Contracts.Characters;
 using EmergencyCenter.Units.Contracts.Navigation;
+using EmergencyCenter.Units.Contracts.Random;
 using EmergencyCenter.Units.Navigation;
 
-namespace EmergencyCenter.Units.Characters
+namespace EmergencyCenter.Units.Characters.Civils
 {
     public class Citizen : Person, ICitizen
     {
@@ -12,13 +13,13 @@ namespace EmergencyCenter.Units.Characters
         private string currentDirection;
         private int stepsInDirection;
 
-        public Citizen(string name, int health, int strength, Position position, IMap map)
-            : base(name, health, strength, position, map, PersonType.Citizen)
+        public Citizen(string name, int health, int strength, Position position, IMap map, IRandomGenerator random)
+            : base(name, health, strength, position, map, PersonType.Citizen, random)
         {
         }
 
-        protected Citizen(string name, int health, int strength, Position position, IMap map, PersonType personType = PersonType.Citizen)
-            : base(name, health, strength, position, map, personType)
+        protected Citizen(string name, int health, int strength, Position position, IMap map, IRandomGenerator random, PersonType personType = PersonType.Citizen)
+            : base(name, health, strength, position, map, personType, random)
         {
         }
 
@@ -33,12 +34,11 @@ namespace EmergencyCenter.Units.Characters
 
         private void Walk()
         {
-            var rnd = new Random();
             if (this.stepsInDirection == 0 || string.IsNullOrEmpty(this.currentDirection))
             {
-                int nextDirection = rnd.Next(0, this.directions.Length);
+                int nextDirection = this.Random.Next(0, this.directions.Length);
                 this.currentDirection = this.directions[nextDirection];
-                int stepsCount = rnd.Next(1, Math.Max(this.Map.MaxPositionX, this.Map.MaxPositionY));
+                int stepsCount = this.Random.Next(1, Math.Max(this.Map.MaxPositionX, this.Map.MaxPositionY));
                 this.stepsInDirection = stepsCount;
             }
             Position nextPosition;
