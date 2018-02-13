@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmergencyCenter.Core", "EmergencyCenter.Core\EmergencyCenter.Core.csproj", "{74171DF1-E467-43C0-B457-96767022101C}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmergencyCenter.InputOutput", "EmergencyCenter.InputOutput\EmergencyCenter.InputOutput.csproj", "{8BC4E2C4-97AB-4D10-9F62-B464F894E37B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmergencyCenter.Validation", "EmergencyCenter.Validation\EmergencyCenter.Validation.csproj", "{A5974CF0-4810-42D5-978C-5CDADC3B0EE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmergencyCenter.Tests", "EmergencyCenter.Tests\EmergencyCenter.Tests.csproj", "{B91EE2EA-95F6-4668-B36E-856A60E19981}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{A5974CF0-4810-42D5-978C-5CDADC3B0EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5974CF0-4810-42D5-978C-5CDADC3B0EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5974CF0-4810-42D5-978C-5CDADC3B0EE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B91EE2EA-95F6-4668-B36E-856A60E19981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B91EE2EA-95F6-4668-B36E-856A60E19981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B91EE2EA-95F6-4668-B36E-856A60E19981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B91EE2EA-95F6-4668-B36E-856A60E19981}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

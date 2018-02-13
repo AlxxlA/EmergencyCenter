@@ -19,6 +19,8 @@ namespace EmergencyCenter.Core.Data
             this.persons = new Dictionary<int, TPerson>();
         }
 
+        public int Count => this.persons.Count;
+
         public void Add(TPerson person)
         {
             if (person == null)

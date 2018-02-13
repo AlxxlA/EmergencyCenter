@@ -51,49 +51,56 @@ namespace EmergencyCenter.Core.Engine
             // execute commandExecutor.Update(), when key combination is pressed (Ctrl + F1) - read command and execute it
             while (true)
             {
-                var reports = new List<string>();
-
-                // key is pressed
-                if (Console.KeyAvailable)
+                try
                 {
-                    ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                    var reports = new List<string>();
 
-                    while (Console.KeyAvailable)
+                    // key is pressed
+                    if (Console.KeyAvailable)
                     {
-                        Console.ReadKey(true);
-                    }
+                        ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
-                    // check is there key combination is Ctrl + F1
-                    if (keyInfo.Modifiers == ConsoleModifiers.Control && keyInfo.Key == ConsoleKey.F1)
-                    {
-                        // read next command
-                        foreach (var line in this.ReadCommand())
+                        while (Console.KeyAvailable)
                         {
-                            // stop reading command
-                            if (line == StopReadCommandsMessage)
+                            Console.ReadKey(true);
+                        }
+
+                        // check is there key combination is Ctrl + F1
+                        if (keyInfo.Modifiers == ConsoleModifiers.Control && keyInfo.Key == ConsoleKey.F1)
+                        {
+                            // read next command
+                            foreach (var line in this.ReadCommand())
                             {
-                                break;
+                                // stop reading command
+                                if (line == StopReadCommandsMessage)
+                                {
+                                    break;
+                                }
+                                // stop program execution
+                                if (line == TerminateProgramMessage || line == null)
+                                {
+                                    return;
+                                }
+
+                                var command = this.commandParser.ParseCommand(line);
+
+                                var parameters = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToList();
+
+                                reports.Add(this.commandProcessor.ProcessCommand(command, parameters));
                             }
-                            // stop program execution
-                            if (line == TerminateProgramMessage || line == null)
-                            {
-                                return;
-                            }
-
-                            var command = this.commandParser.ParseCommand(line);
-
-                            var parameters = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Skip(1).ToList();
-
-                            reports.Add(this.commandProcessor.ProcessCommand(command, parameters));
                         }
                     }
+
+                    this.commandCenter.UpdateUnits();
+                    reports.AddRange(this.commandCenter.Reports());
+
+                    this.PrintReports(reports);
+                    Thread.Sleep(500);
                 }
-
-                this.commandCenter.UpdateUnits();
-                reports.AddRange(this.commandCenter.Reports());
-
-                this.PrintReports(reports);
-                Thread.Sleep(500);
+                catch (Exception e)
+                {
+                    this.writer.WriteLine(e.Message);
+                }
             }
         }
 

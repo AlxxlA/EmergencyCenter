@@ -5,6 +5,8 @@ namespace EmergencyCenter.Core.Contracts.Data
 {
     public interface IDatabase<T> : IEnumerable<T>
     {
+        int Count { get; }
+
         void Add(T element);
 
         void Remove(T element);
