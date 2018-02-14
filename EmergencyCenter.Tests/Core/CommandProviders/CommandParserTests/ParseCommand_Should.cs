@@ -93,15 +93,16 @@ namespace EmergencyCenter.Tests.Core.CommandProviders.CommandParserTests
 
             var commandLine = "somecommand param1";
 
-            int calls = 0;
+            //int calls = 0;
 
             validatorMock.Setup(v => v.ValidateNull(null, It.IsAny<string>())).Throws<ArgumentNullException>();
-            validatorMock.Setup(v => v.ValidateStringNullOrEmpty(commandLine, It.IsAny<string>())).Callback(() => calls++);
+            //validatorMock.Setup(v => v.ValidateStringNullOrEmpty(commandLine, It.IsAny<string>())).Callback(() => calls++);
 
             var commandParser = new CommandParser(commandFactoyMock.Object, validatorMock.Object);
             commandParser.ParseCommand(commandLine);
 
-            Assert.AreEqual(1, calls);
+            validatorMock.Verify(v => v.ValidateStringNullOrEmpty(commandLine, "Command line cannot be null or empty."), Times.Once);
+            //Assert.AreEqual(1, calls);
         }
 
         [TestMethod]
